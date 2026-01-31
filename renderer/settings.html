@@ -357,12 +357,22 @@
       wheelUp: 'Wheel Up',
       wheelDown: 'Wheel Down',
       middleClick: 'Middle Click',
+      arrowUp: 'Up Arrow',
+      arrowDown: 'Down Arrow',
+      keyM: 'M Key',
     };
-    const DEFAULTS = {
-      volumeUp: { modifier: 'alt', trigger: 'wheelUp' },
-      volumeDown: { modifier: 'alt', trigger: 'wheelDown' },
-      mute: { modifier: 'alt', trigger: 'middleClick' },
-    };
+    const platform = window.electronAPI.platform;
+    const DEFAULTS = platform === 'darwin'
+      ? {
+          volumeUp: { modifier: 'alt', trigger: 'arrowUp' },
+          volumeDown: { modifier: 'alt', trigger: 'arrowDown' },
+          mute: { modifier: 'alt', trigger: 'keyM' },
+        }
+      : {
+          volumeUp: { modifier: 'alt', trigger: 'wheelUp' },
+          volumeDown: { modifier: 'alt', trigger: 'wheelDown' },
+          mute: { modifier: 'alt', trigger: 'middleClick' },
+        };
 
     let currentSettings = null;
     let capturingField = null;

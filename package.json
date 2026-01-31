@@ -5,7 +5,9 @@
   "main": "electron/main.js",
   "scripts": {
     "dev": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win"
   },
   "keywords": [],
   "author": "",
@@ -25,11 +27,20 @@
       "renderer/**/*",
       "assets/**/*",
       "package.json"
-    ]
+    ],
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "nsis"
+    }
   },
   "dependencies": {
     "electron-store": "^11.0.2",
-    "koffi": "^2.15.1",
     "loudness": "^0.4.2"
+  },
+  "optionalDependencies": {
+    "koffi": "^2.15.1"
   }
 }

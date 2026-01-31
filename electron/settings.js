@@ -1,5 +1,21 @@
 const Store = require('electron-store').default;
 
+const isDarwin = process.platform === 'darwin';
+
+const DEFAULTS_WIN32 = {
+  volumeUp: { modifier: 'alt', trigger: 'wheelUp' },
+  volumeDown: { modifier: 'alt', trigger: 'wheelDown' },
+  mute: { modifier: 'alt', trigger: 'middleClick' },
+};
+
+const DEFAULTS_DARWIN = {
+  volumeUp: { modifier: 'alt', trigger: 'arrowUp' },
+  volumeDown: { modifier: 'alt', trigger: 'arrowDown' },
+  mute: { modifier: 'alt', trigger: 'keyM' },
+};
+
+const shortcutDefaults = isDarwin ? DEFAULTS_DARWIN : DEFAULTS_WIN32;
+
 const schema = {
   shortcuts: {
     type: 'object',
@@ -8,32 +24,28 @@ const schema = {
         type: 'object',
         properties: {
           modifier: { type: 'string', enum: ['alt', 'ctrl', 'shift', 'meta'], default: 'alt' },
-          trigger: { type: 'string', default: 'wheelUp' },
+          trigger: { type: 'string', default: shortcutDefaults.volumeUp.trigger },
         },
-        default: { modifier: 'alt', trigger: 'wheelUp' },
+        default: shortcutDefaults.volumeUp,
       },
       volumeDown: {
         type: 'object',
         properties: {
           modifier: { type: 'string', enum: ['alt', 'ctrl', 'shift', 'meta'], default: 'alt' },
-          trigger: { type: 'string', default: 'wheelDown' },
+          trigger: { type: 'string', default: shortcutDefaults.volumeDown.trigger },
         },
-        default: { modifier: 'alt', trigger: 'wheelDown' },
+        default: shortcutDefaults.volumeDown,
       },
       mute: {
         type: 'object',
         properties: {
           modifier: { type: 'string', enum: ['alt', 'ctrl', 'shift', 'meta'], default: 'alt' },
-          trigger: { type: 'string', default: 'middleClick' },
+          trigger: { type: 'string', default: shortcutDefaults.mute.trigger },
         },
-        default: { modifier: 'alt', trigger: 'middleClick' },
+        default: shortcutDefaults.mute,
       },
     },
-    default: {
-      volumeUp: { modifier: 'alt', trigger: 'wheelUp' },
-      volumeDown: { modifier: 'alt', trigger: 'wheelDown' },
-      mute: { modifier: 'alt', trigger: 'middleClick' },
-    },
+    default: shortcutDefaults,
   },
   volume: {
     type: 'object',

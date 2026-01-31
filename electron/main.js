@@ -1,8 +1,25 @@
 const { app, ipcMain, BrowserWindow } = require('electron');
 const { createTray, destroyTray, setTrayState } = require('./tray');
 const { createOsdWindow, showOsd, destroyOsd } = require('./osd');
-const { startHook, stopHook, startCapture, cancelCapture } = require('./input-hook');
-const { adjustVolume, toggleMute } = require('./volume');
+const inputHook = require('./input-hook');
+const { adjustVolume, adjustVolumeSync, getCurrentVolume, toggleMute } = require('./volume');
+
+// Acceleration: consecutive same-direction inputs within 500ms ramp up step (max 5%)
+const accel = { direction: null, lastTime: 0, step: 0 };
+const ACCEL_WINDOW = 500;
+const ACCEL_MAX = 10;
+
+function getAcceleratedStep(direction, baseStep) {
+  const now = Date.now();
+  if (direction === accel.direction && (now - accel.lastTime) < ACCEL_WINDOW) {
+    accel.step = Math.min(accel.step + 1, ACCEL_MAX);
+  } else {
+    accel.step = baseStep;
+    accel.direction = direction;
+  }
+  accel.lastTime = now;
+  return accel.step;
+}
 const { getSettings, saveSettings } = require('./settings');
 
 // Prevent multiple instances
@@ -18,17 +35,21 @@ app.whenReady().then(() => {
 
   createTray(app);
   createOsdWindow();
+  getCurrentVolume(); // initialize volume cache
 
   // IPC: Settings
   ipcMain.handle('get-settings', () => getSettings());
   ipcMain.handle('save-settings', (_event, settings) => {
     saveSettings(settings);
+    if (inputHook.bindShortcuts) {
+      inputHook.bindShortcuts(getSettings().shortcuts);
+    }
     return true;
   });
 
   // IPC: Shortcut Capture
   ipcMain.handle('start-capture', (_event, actionId) => {
-    startCapture((result) => {
+    inputHook.startCapture((result) => {
       // Send capture result to all settings windows
       BrowserWindow.getAllWindows().forEach((win) => {
         win.webContents.send('capture-result', {
@@ -41,20 +62,8 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('cancel-capture', () => {
-    cancelCapture();
+    inputHook.cancelCapture();
   });
-
-  // Wheel speed multiplier
-  let lastWheelTime = 0;
-  function getSpeedMultiplier() {
-    const now = Date.now();
-    const interval = now - lastWheelTime;
-    lastWheelTime = now;
-    if (interval < 50) return 4;
-    if (interval < 100) return 3;
-    if (interval < 150) return 2;
-    return 1;
-  }
 
   // Match event against shortcut config
   function matchesShortcut(event, shortcut) {
@@ -69,31 +78,48 @@ app.whenReady().then(() => {
     return false;
   }
 
-  startHook((event) => {
+  inputHook.startHook((event) => {
     const currentSettings = getSettings();
     const shortcuts = currentSettings.shortcuts;
     const osdDuration = currentSettings.osd.duration;
 
+    // macOS: keyboard events have action already resolved
+    if (event.type === 'keyboard') {
+      if (event.action === 'volumeUp') {
+        const step = getAcceleratedStep('up', currentSettings.volume.step);
+        const result = adjustVolumeSync('up', step);
+        if (result) showOsd('volume', result.volume, osdDuration, result.muted);
+      } else if (event.action === 'volumeDown') {
+        const step = getAcceleratedStep('down', currentSettings.volume.step);
+        const result = adjustVolumeSync('down', step);
+        if (result) showOsd('volume', result.volume, osdDuration, result.muted);
+      } else if (event.action === 'mute') {
+        toggleMute().then((result) => {
+          showOsd('mute', result.volume, osdDuration, result.muted);
+          setTrayState(result.muted ? 'muted' : 'normal');
+        });
+      }
+      return;
+    }
+
+    // Windows: mouse wheel/click events
     if (event.type === 'wheel') {
-      // Check volume up
       if (matchesShortcut(event, shortcuts.volumeUp)) {
-        const step = currentSettings.volume.step * getSpeedMultiplier();
+        const step = getAcceleratedStep('up', currentSettings.volume.step);
         adjustVolume('up', step).then((result) => {
           showOsd('volume', result.volume, osdDuration, result.muted);
         });
         return;
       }
 
-      // Check volume down
       if (matchesShortcut(event, shortcuts.volumeDown)) {
-        const step = currentSettings.volume.step * getSpeedMultiplier();
+        const step = getAcceleratedStep('down', currentSettings.volume.step);
         adjustVolume('down', step).then((result) => {
           showOsd('volume', result.volume, osdDuration, result.muted);
         });
         return;
       }
 
-      // Check mute (wheel-based)
       if (matchesShortcut(event, shortcuts.mute)) {
         toggleMute().then((result) => {
           showOsd('mute', result.volume, osdDuration, result.muted);
@@ -104,7 +130,6 @@ app.whenReady().then(() => {
     }
 
     if (event.type === 'middleClick') {
-      // Check mute (middle click)
       if (matchesShortcut(event, shortcuts.mute)) {
         toggleMute().then((result) => {
           showOsd('mute', result.volume, osdDuration, result.muted);
@@ -113,7 +138,6 @@ app.whenReady().then(() => {
         return;
       }
 
-      // Check volume shortcuts mapped to middle click
       if (matchesShortcut(event, shortcuts.volumeUp)) {
         adjustVolume('up', currentSettings.volume.step).then((result) => {
           showOsd('volume', result.volume, osdDuration, result.muted);
@@ -128,6 +152,11 @@ app.whenReady().then(() => {
       }
     }
   });
+
+  // macOS: bind shortcuts after hook starts
+  if (inputHook.bindShortcuts) {
+    inputHook.bindShortcuts(getSettings().shortcuts);
+  }
 });
 
 app.on('window-all-closed', (e) => {
@@ -135,7 +164,7 @@ app.on('window-all-closed', (e) => {
 });
 
 app.on('before-quit', () => {
-  stopHook();
+  inputHook.stopHook();
   destroyOsd();
   destroyTray();
 });

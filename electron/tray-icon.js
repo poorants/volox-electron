@@ -85,7 +85,11 @@ function createTrayIcon(state = 'normal') {
   }
 
   const png = encodePNG(SIZE, SIZE, pixels);
-  return nativeImage.createFromBuffer(png);
+  const img = nativeImage.createFromBuffer(png);
+  if (process.platform === 'darwin') {
+    img.setTemplateImage(true);
+  }
+  return img;
 }
 
 // Distance from point to line segment
