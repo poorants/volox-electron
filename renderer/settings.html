@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Voly Settings</title>
+  <style>
+    :root {
+      --voly-400: #A78BFA;
+      --voly-500: #8B5CF6;
+      --voly-600: #7C3AED;
+      --voly-700: #6D28D9;
+      --voly-glow: rgba(139, 92, 246, 0.4);
+      --voly-glow-strong: rgba(139, 92, 246, 0.6);
+      --surface-0: #09090B;
+      --surface-1: #18181B;
+      --surface-2: #27272A;
+      --border: #3F3F46;
+      --border-accent: rgba(139, 92, 246, 0.2);
+      --text-primary: #FAFAFA;
+      --text-secondary: #A1A1AA;
+      --text-tertiary: #71717A;
+      --mute-red: #EF4444;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--surface-0);
+      color: var(--text-primary);
+      user-select: none;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Custom Titlebar */
+    .titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 40px;
+      min-height: 40px;
+      padding: 0 6px 0 16px;
+      -webkit-app-region: drag;
+      border-bottom: 1px solid var(--border);
+    }
+    .titlebar-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+    .titlebar-close {
+      -webkit-app-region: no-drag;
+      width: 32px; height: 32px;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      color: var(--text-tertiary);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .titlebar-close:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: #EF4444;
+    }
+
+    /* Scrollable Content */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px 20px;
+    }
+
+    /* Custom Scrollbar */
+    .content::-webkit-scrollbar {
+      width: 6px;
+    }
+    .content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .content::-webkit-scrollbar-thumb {
+      background: var(--voly-600);
+      border-radius: 3px;
+    }
+    .content::-webkit-scrollbar-thumb:hover {
+      background: var(--voly-500);
+      box-shadow: 0 0 8px var(--voly-glow);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .header-logo {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--voly-600), var(--voly-400));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 800; color: white;
+      box-shadow: 0 0 20px var(--voly-glow);
+    }
+    .header-text h1 {
+      font-size: 20px; font-weight: 700; line-height: 1.2;
+    }
+    .header-text p {
+      font-size: 11px; color: var(--text-tertiary);
+      letter-spacing: 0.02em;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      padding-left: 2px;
+    }
+    .section-body {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+
+    /* Shortcut Row */
+    .shortcut-row {
+      padding: 8px 0;
+    }
+    .shortcut-row + .shortcut-row {
+      border-top: 1px solid rgba(63, 63, 70, 0.5);
+      margin-top: 4px;
+      padding-top: 12px;
+    }
+    .shortcut-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .shortcut-field-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .shortcut-field {
+      flex: 1;
+      background: var(--surface-2);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      text-transform: capitalize;
+    }
+    .shortcut-field:hover {
+      border-color: var(--border);
+    }
+    .shortcut-field.capturing {
+      border-color: var(--voly-500);
+      color: var(--text-tertiary);
+      animation: capture-pulse 1.5s infinite;
+    }
+    .shortcut-field.captured {
+      border-color: var(--voly-500);
+      transition: border-color 1s ease;
+    }
+    @keyframes capture-pulse {
+      0%, 100% { border-color: var(--voly-500); box-shadow: 0 0 8px var(--voly-glow); }
+      50% { border-color: var(--voly-400); box-shadow: 0 0 16px var(--voly-glow-strong); }
+    }
+    .btn-reset-shortcut {
+      width: 32px; height: 32px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--text-tertiary);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .btn-reset-shortcut:hover {
+      color: var(--voly-400);
+      border-color: var(--border);
+    }
+
+    /* Slider */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 4px 0;
+    }
+    .slider-row label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .slider-row input[type="range"] {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: var(--surface-2);
+      border-radius: 2px;
+      outline: none;
+    }
+    .slider-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--voly-500);
+      cursor: pointer;
+      box-shadow: 0 0 8px var(--voly-glow);
+      transition: box-shadow 0.15s;
+    }
+    .slider-row input[type="range"]::-webkit-slider-thumb:hover {
+      box-shadow: 0 0 14px var(--voly-glow-strong);
+    }
+    .slider-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      min-width: 28px;
+      text-align: right;
+    }
+
+    /* Buttons */
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      justify-content: center;
+    }
+    .btn {
+      padding: 10px 28px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-save {
+      background: var(--voly-600);
+      color: white;
+      box-shadow: 0 0 16px var(--voly-glow);
+    }
+    .btn-save:hover {
+      background: var(--voly-500);
+      box-shadow: 0 0 24px var(--voly-glow-strong);
+    }
+    .btn-save.saved {
+      background: #16a34a;
+      box-shadow: 0 0 16px rgba(34, 197, 94, 0.4);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      background: var(--surface-1);
+      color: var(--text-primary);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="titlebar">
+    <span class="titlebar-title">Voly Settings</span>
+    <button class="titlebar-close" id="titlebar-close">&#x2715;</button>
+  </div>
+
+  <div class="content">
+
+  <div class="header">
+    <div class="header-logo">Vy</div>
+    <div class="header-text">
+      <h1>Voly</h1>
+      <p>Volume, the way it should be.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Shortcuts</div>
+    <div class="section-body">
+      <div class="shortcut-row">
+        <div class="shortcut-label">Volume Up</div>
+        <div class="shortcut-field-wrapper">
+          <div class="shortcut-field" id="field-volumeUp" data-action="volumeUp">Alt + Wheel Up</div>
+          <button class="btn-reset-shortcut" data-action="volumeUp" title="Reset to default">&#x21BB;</button>
+        </div>
+      </div>
+      <div class="shortcut-row">
+        <div class="shortcut-label">Volume Down</div>
+        <div class="shortcut-field-wrapper">
+          <div class="shortcut-field" id="field-volumeDown" data-action="volumeDown">Alt + Wheel Down</div>
+          <button class="btn-reset-shortcut" data-action="volumeDown" title="Reset to default">&#x21BB;</button>
+        </div>
+      </div>
+      <div class="shortcut-row">
+        <div class="shortcut-label">Mute Toggle</div>
+        <div class="shortcut-field-wrapper">
+          <div class="shortcut-field" id="field-mute" data-action="mute">Alt + Middle Click</div>
+          <button class="btn-reset-shortcut" data-action="mute" title="Reset to default">&#x21BB;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Volume</div>
+    <div class="section-body">
+      <div class="slider-row">
+        <label>Step Size</label>
+        <input type="range" id="vol-step" min="1" max="10" value="2">
+        <span class="slider-value" id="vol-step-value">2%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button class="btn btn-save" id="save-btn">Save</button>
+    <button class="btn btn-ghost" id="close-btn">Close</button>
+  </div>
+
+  <div class="footer">v2.0.0</div>
+
+  </div><!-- .content -->
+
+  <script>
+    const TRIGGER_LABELS = {
+      wheelUp: 'Wheel Up',
+      wheelDown: 'Wheel Down',
+      middleClick: 'Middle Click',
+    };
+    const DEFAULTS = {
+      volumeUp: { modifier: 'alt', trigger: 'wheelUp' },
+      volumeDown: { modifier: 'alt', trigger: 'wheelDown' },
+      mute: { modifier: 'alt', trigger: 'middleClick' },
+    };
+
+    let currentSettings = null;
+    let capturingField = null;
+
+    function shortcutText(sc) {
+      const mod = sc.modifier.charAt(0).toUpperCase() + sc.modifier.slice(1);
+      return mod + ' + ' + (TRIGGER_LABELS[sc.trigger] || sc.trigger);
+    }
+
+    function updateFieldDisplay(actionId, sc) {
+      document.getElementById('field-' + actionId).textContent = shortcutText(sc);
+    }
+
+    async function init() {
+      currentSettings = await window.electronAPI.getSettings();
+      const sc = currentSettings.shortcuts || DEFAULTS;
+      updateFieldDisplay('volumeUp', sc.volumeUp || DEFAULTS.volumeUp);
+      updateFieldDisplay('volumeDown', sc.volumeDown || DEFAULTS.volumeDown);
+      updateFieldDisplay('mute', sc.mute || DEFAULTS.mute);
+
+      const step = (currentSettings.volume && currentSettings.volume.step) || 2;
+      document.getElementById('vol-step').value = step;
+      document.getElementById('vol-step-value').textContent = step + '%';
+    }
+
+    // Slider live update
+    document.getElementById('vol-step').addEventListener('input', (e) => {
+      document.getElementById('vol-step-value').textContent = e.target.value + '%';
+    });
+
+    // Shortcut field click → capture mode
+    document.querySelectorAll('.shortcut-field').forEach(field => {
+      field.addEventListener('click', () => {
+        // Cancel previous capture
+        if (capturingField) {
+          capturingField.classList.remove('capturing');
+          window.electronAPI.cancelCapture();
+        }
+        capturingField = field;
+        field.classList.add('capturing');
+        field.textContent = 'Press shortcut...';
+        window.electronAPI.startCapture(field.dataset.action);
+      });
+    });
+
+    // Capture result from main
+    window.electronAPI.onCaptureResult((result) => {
+      if (capturingField && capturingField.dataset.action === result.actionId) {
+        capturingField.classList.remove('capturing');
+        capturingField.classList.add('captured');
+        const sc = { modifier: result.modifier, trigger: result.trigger };
+        updateFieldDisplay(result.actionId, sc);
+
+        if (!currentSettings.shortcuts) currentSettings.shortcuts = {};
+        currentSettings.shortcuts[result.actionId] = sc;
+
+        setTimeout(() => capturingField.classList.remove('captured'), 1000);
+        capturingField = null;
+      }
+    });
+
+    // Reset buttons
+    document.querySelectorAll('.btn-reset-shortcut').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const actionId = btn.dataset.action;
+        const def = DEFAULTS[actionId];
+        updateFieldDisplay(actionId, def);
+        if (!currentSettings.shortcuts) currentSettings.shortcuts = {};
+        currentSettings.shortcuts[actionId] = { ...def };
+      });
+    });
+
+    // ESC to cancel capture
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && capturingField) {
+        capturingField.classList.remove('capturing');
+        const actionId = capturingField.dataset.action;
+        const sc = (currentSettings.shortcuts && currentSettings.shortcuts[actionId]) || DEFAULTS[actionId];
+        updateFieldDisplay(actionId, sc);
+        window.electronAPI.cancelCapture();
+        capturingField = null;
+      }
+    });
+
+    // Save
+    document.getElementById('save-btn').addEventListener('click', async () => {
+      const settings = {
+        shortcuts: currentSettings.shortcuts || { ...DEFAULTS },
+        volume: {
+          step: parseInt(document.getElementById('vol-step').value),
+        },
+      };
+      await window.electronAPI.saveSettings(settings);
+      const btn = document.getElementById('save-btn');
+      btn.textContent = 'Saved!';
+      btn.classList.add('saved');
+      setTimeout(() => { btn.textContent = 'Save'; btn.classList.remove('saved'); }, 2000);
+    });
+
+    // Close
+    document.getElementById('close-btn').addEventListener('click', () => window.close());
+    document.getElementById('titlebar-close').addEventListener('click', () => window.close());
+
+    init();
+  </script>
+</body>
+</html>

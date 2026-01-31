@@ -1,0 +1,19 @@
+{
+  "project": "voly",
+  "level": "Starter",
+  "activeFeatures": [],
+  "pdca": {
+    "voluk": {
+      "phase": "archived",
+      "matchRate": 92,
+      "archivedTo": "docs/archive/2026-01/voluk/",
+      "updatedAt": "2026-01-31"
+    },
+    "tray-icon": {
+      "phase": "archived",
+      "matchRate": 100,
+      "archivedTo": "docs/archive/2026-01/tray-icon/",
+      "updatedAt": "2026-01-31"
+    }
+  }
+}

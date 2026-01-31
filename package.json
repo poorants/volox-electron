@@ -1,0 +1,35 @@
+{
+  "name": "voly",
+  "version": "2.0.0",
+  "description": "Voly - Volume, the way it should be.",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "electron .",
+    "build": "electron-builder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^40.1.0",
+    "electron-builder": "^26.4.0"
+  },
+  "build": {
+    "appId": "com.voly.app",
+    "productName": "Voly",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "renderer/**/*",
+      "assets/**/*",
+      "package.json"
+    ]
+  },
+  "dependencies": {
+    "electron-store": "^11.0.2",
+    "koffi": "^2.15.1",
+    "loudness": "^0.4.2"
+  }
+}

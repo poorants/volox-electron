@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Static Neon Speaker</title>
+    <style>
+      /* 원본 이미지와 같은 어두운 배경 */
+      body {
+        background-color: #0f0f12;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      /* 스피커 아이콘 전체 컨테이너 */
+      .speaker-container {
+        position: relative;
+        width: 120px; /* 파동까지 포함한 전체 너비 */
+        height: 80px; /* 전체 높이 */
+        display: flex;
+        align-items: center;
+      }
+
+      /* 1. 스피커 본체 (보라색 네온) */
+      .speaker-body {
+        position: relative;
+        width: 32px;
+        height: 32px;
+        /* 스피커 뒷부분 사각형 */
+        border: 4px solid #a855f7; /* 보라색 테두리 */
+        border-right: none; /* 앞부분 삼각형과 연결 */
+        border-radius: 4px 0 0 4px;
+        /* 강렬한 보라색 빛 번짐 효과 */
+        box-shadow:
+          0 0 15px 2px rgba(168, 85, 247, 0.8),
+          inset 0 0 10px rgba(168, 85, 247, 0.5);
+        background: transparent;
+      }
+
+      /* 스피커 앞부분 삼각형 */
+      .speaker-body::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 32px; /* 사각형 바로 옆에 붙임 */
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        /* CSS로 삼각형 만들기 */
+        border-top: 28px solid transparent;
+        border-bottom: 28px solid transparent;
+        border-left: 28px solid #a855f7; /* 보라색 삼각형 */
+        /* 삼각형 빛 번짐 효과 */
+        filter: drop-shadow(0 0 10px #a855f7);
+      }
+
+      /* 2. 소리 파동 (하늘색 네온) */
+      .waves {
+        position: absolute;
+        left: 60px; /* 스피커 본체 옆으로 위치 설정 */
+        top: 50%;
+        transform: translateY(-50%);
+        /* 파동들을 겹치기 위해 필요한 설정 */
+        width: 60px;
+        height: 80px;
+        overflow: hidden; /* 컨테이너 밖으로 나가는 부분 잘라냄 */
+      }
+
+      /* 공통 파동 스타일 */
+      .wave {
+        position: absolute;
+        top: 50%;
+        left: -50%; /* 반원을 만들기 위해 왼쪽으로 밀어냄 */
+        transform: translateY(-50%);
+        border-radius: 50%; /* 원형 */
+        border: 4px solid transparent; /* 기본 테두리는 투명 */
+        border-right-color: #22d3ee; /* 오른쪽 테두리만 하늘색으로 */
+        /* 강렬한 하늘색 빛 번짐 효과 */
+        box-shadow: 5px 0 15px rgba(34, 211, 238, 0.8);
+      }
+
+      /* 각 파동의 크기와 위치를 정교하게 조절하여 간격 맞춤 */
+      /* 가장 작은 파동 */
+      .wave-1 {
+        width: 40px;
+        height: 40px;
+        border-width: 4px;
+        margin-left: 12px;
+      }
+      /* 두 번째 파동 */
+      .wave-2 {
+        width: 64px;
+        height: 64px;
+        border-width: 4px;
+        margin-left: 2px;
+      }
+      /* 세 번째 파동 */
+      .wave-3 {
+        width: 88px;
+        height: 88px;
+        border-width: 4px;
+        margin-left: -8px;
+      }
+      /* 가장 큰 파동 */
+      .wave-4 {
+        width: 112px;
+        height: 112px;
+        border-width: 4px;
+        margin-left: -18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="speaker-container">
+      <div class="speaker-body"></div>
+
+      <div class="waves">
+        <div class="wave wave-4"></div>
+        <div class="wave wave-3"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-1"></div>
+      </div>
+    </div>
+  </body>
+</html>
