@@ -1,0 +1,78 @@
+/* ============================================
+   Voly Theme — Light (Electric Violet)
+   ============================================ */
+
+:root {
+  /* Primary — Violet 유지 */
+  --voly-400: #A78BFA;
+  --voly-500: #8B5CF6;
+  --voly-600: #7C3AED;
+  --voly-700: #6D28D9;
+  --voly-glow: rgba(139, 92, 246, 0.25);
+  --voly-glow-strong: rgba(139, 92, 246, 0.35);
+  --voly-hover: rgba(139, 92, 246, 0.08);
+  --voly-active: rgba(139, 92, 246, 0.14);
+
+  /* Surfaces — Light */
+  --surface-0: #FFFFFF;
+  --surface-1: #F4F4F5;
+  --surface-2: #E4E4E7;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+
+  /* Borders — Light */
+  --border: #D4D4D8;
+  --border-accent: rgba(139, 92, 246, 0.25);
+  --border-subtle: rgba(212, 212, 216, 0.6);
+
+  /* Text — Dark on Light */
+  --text-primary: #09090B;
+  --text-secondary: #52525B;
+  --text-tertiary: #A1A1AA;
+
+  /* Semantic: Mute / Danger */
+  --mute-red: #DC2626;
+  --mute-red-glow: rgba(220, 38, 38, 0.2);
+  --mute-red-strong: rgba(220, 38, 38, 0.3);
+  --mute-red-hover: rgba(220, 38, 38, 0.08);
+  --mute-red-light: #F87171;
+
+  /* Semantic: Success */
+  --success: #15803d;
+  --success-glow: rgba(21, 128, 61, 0.2);
+
+  /* Misc */
+  --bar-track: rgba(0, 0, 0, 0.08);
+
+  /* Typography — 동일 */
+  --font-family: 'Segoe UI', system-ui, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 13px;
+  --font-size-lg: 14px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 28px;
+  --font-size-icon: 22px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Border Radius — 동일 */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 12px;
+  --radius-3xl: 14px;
+  --radius-4xl: 16px;
+  --radius-full: 50%;
+
+  /* Effects — Light 조정 */
+  --blur-md: 20px;
+  --blur-lg: 24px;
+  --shadow-menu: 0 4px 16px rgba(0, 0, 0, 0.12), 0 0 1px rgba(139, 92, 246, 0.1);
+  --transition-fast: 120ms;
+  --transition-normal: 150ms;
+  --transition-slow: 250ms;
+}

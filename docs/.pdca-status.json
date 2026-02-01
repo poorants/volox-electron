@@ -13,6 +13,11 @@
       "phase": "completed",
       "startedAt": "2026-02-01T00:00:00.000Z",
       "matchRate": null
+    },
+    "theme-light": {
+      "phase": "completed",
+      "startedAt": "2026-02-01T00:00:00.000Z",
+      "matchRate": null
     }
   },
   "pipeline": {

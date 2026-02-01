@@ -1,0 +1,78 @@
+/* ============================================
+   Voly Theme — Dark (Electric Violet)
+   ============================================ */
+
+:root {
+  /* Primary */
+  --voly-400: #A78BFA;
+  --voly-500: #8B5CF6;
+  --voly-600: #7C3AED;
+  --voly-700: #6D28D9;
+  --voly-glow: rgba(139, 92, 246, 0.4);
+  --voly-glow-strong: rgba(139, 92, 246, 0.6);
+  --voly-hover: rgba(139, 92, 246, 0.1);
+  --voly-active: rgba(139, 92, 246, 0.18);
+
+  /* Surfaces */
+  --surface-0: #09090B;
+  --surface-1: #18181B;
+  --surface-2: #27272A;
+  --glass-bg: rgba(9, 9, 11, 0.78);
+
+  /* Borders */
+  --border: #3F3F46;
+  --border-accent: rgba(139, 92, 246, 0.2);
+  --border-subtle: rgba(63, 63, 70, 0.5);
+
+  /* Text */
+  --text-primary: #FAFAFA;
+  --text-secondary: #A1A1AA;
+  --text-tertiary: #71717A;
+
+  /* Semantic: Mute / Danger */
+  --mute-red: #EF4444;
+  --mute-red-glow: rgba(239, 68, 68, 0.4);
+  --mute-red-strong: rgba(239, 68, 68, 0.6);
+  --mute-red-hover: rgba(239, 68, 68, 0.15);
+  --mute-red-light: #FCA5A5;
+
+  /* Semantic: Success */
+  --success: #16a34a;
+  --success-glow: rgba(34, 197, 94, 0.4);
+
+  /* Misc */
+  --bar-track: rgba(255, 255, 255, 0.08);
+
+  /* Typography */
+  --font-family: 'Segoe UI', system-ui, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 13px;
+  --font-size-lg: 14px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 28px;
+  --font-size-icon: 22px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Border Radius */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 12px;
+  --radius-3xl: 14px;
+  --radius-4xl: 16px;
+  --radius-full: 50%;
+
+  /* Effects */
+  --blur-md: 20px;
+  --blur-lg: 24px;
+  --shadow-menu: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 1px rgba(139, 92, 246, 0.15);
+  --transition-fast: 120ms;
+  --transition-normal: 150ms;
+  --transition-slow: 250ms;
+}
