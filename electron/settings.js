@@ -66,6 +66,10 @@ const schema = {
     enum: ['dark', 'light', 'cyber-pulse'],
     default: 'dark',
   },
+  autoStart: {
+    type: 'boolean',
+    default: false,
+  },
 };
 
 const store = new Store({ schema });
@@ -76,6 +80,7 @@ function getSettings() {
     volume: store.get('volume'),
     osd: store.get('osd'),
     theme: store.get('theme'),
+    autoStart: store.get('autoStart'),
   };
 }
 
@@ -84,6 +89,7 @@ function saveSettings(settings) {
   if (settings.volume) store.set('volume', settings.volume);
   if (settings.osd) store.set('osd', settings.osd);
   if (settings.theme) store.set('theme', settings.theme);
+  if (settings.autoStart !== undefined) store.set('autoStart', settings.autoStart);
 }
 
 function getTheme() {

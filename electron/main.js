@@ -44,6 +44,9 @@ app.whenReady().then(() => {
     if (inputHook.bindShortcuts) {
       inputHook.bindShortcuts(getSettings().shortcuts);
     }
+    if (settings.autoStart !== undefined) {
+      app.setLoginItemSettings({ openAtLogin: settings.autoStart });
+    }
     return true;
   });
 
