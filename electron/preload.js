@@ -30,4 +30,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onThemeChanged: (callback) => {
     ipcRenderer.on('theme-changed', (_event, theme) => callback(theme));
   },
+  openThemePicker: () => ipcRenderer.invoke('open-theme-picker'),
 });

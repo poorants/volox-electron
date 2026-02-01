@@ -6,6 +6,7 @@ const { getTheme } = require('./settings');
 let tray = null;
 let settingsWindow = null;
 let menuWindow = null;
+let themeWindow = null;
 
 function createTray(app) {
   const icon = createTrayIcon('normal');
@@ -15,7 +16,7 @@ function createTray(app) {
   // Pre-create menu popup (hidden)
   menuWindow = new BrowserWindow({
     width: 280,
-    height: 290,
+    height: 220,
     frame: false,
     transparent: true,
     resizable: false,
@@ -70,7 +71,7 @@ function getMenuPosition(trayBounds) {
   const display = screen.getDisplayNearestPoint({ x: trayBounds.x, y: trayBounds.y });
   const { x: wx, y: wy, width: sw, height: sh } = display.workArea;
   const menuW = 280;
-  const menuH = 290;
+  const menuH = 220;
 
   let x = Math.round(trayBounds.x - menuW / 2 + trayBounds.width / 2);
   let y;
@@ -115,10 +116,41 @@ function openSettings() {
   });
 }
 
+function openThemePicker() {
+  if (themeWindow && !themeWindow.isDestroyed()) {
+    themeWindow.focus();
+    return;
+  }
+
+  themeWindow = new BrowserWindow({
+    width: 360,
+    height: 400,
+    resizable: false,
+    frame: false,
+    title: 'Voly Themes',
+    backgroundColor: getTheme() === 'light' ? '#FFFFFF' : '#09090B',
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+    },
+  });
+
+  themeWindow.setMenuBarVisibility(false);
+  themeWindow.loadFile(path.join(__dirname, '..', 'renderer', 'theme-picker.html'));
+
+  themeWindow.on('closed', () => {
+    themeWindow = null;
+  });
+}
+
 function destroyTray() {
   if (menuWindow && !menuWindow.isDestroyed()) {
     menuWindow.destroy();
     menuWindow = null;
+  }
+  if (themeWindow && !themeWindow.isDestroyed()) {
+    themeWindow.destroy();
+    themeWindow = null;
   }
   if (tray) {
     tray.destroy();
@@ -136,4 +168,4 @@ function setTrayState(state) {
   }
 }
 
-module.exports = { createTray, destroyTray, setTrayState, openSettings };
+module.exports = { createTray, destroyTray, setTrayState, openSettings, openThemePicker };

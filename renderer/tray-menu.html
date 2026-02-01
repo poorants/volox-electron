@@ -124,15 +124,6 @@
     .menu-item.quit:hover .label {
       color: var(--mute-red-light);
     }
-    .menu-item .check {
-      margin-left: auto;
-      font-size: var(--font-size-sm);
-      color: var(--voly-500);
-      opacity: 0;
-    }
-    .menu-item.active .check {
-      opacity: 1;
-    }
   </style>
 </head>
 <body>
@@ -157,15 +148,9 @@
 
     <div class="sep"></div>
 
-    <div class="menu-item" id="btn-theme-dark" data-theme="dark">
-      <span class="icon">&#x1F319;</span>
-      <span class="label">Dark</span>
-      <span class="check">&#x2713;</span>
-    </div>
-    <div class="menu-item" id="btn-theme-light" data-theme="light">
-      <span class="icon">&#x2600;</span>
-      <span class="label">Light</span>
-      <span class="check">&#x2713;</span>
+    <div class="menu-item" id="btn-theme">
+      <span class="icon">&#x1F3A8;</span>
+      <span class="label">Theme</span>
     </div>
 
     <div class="sep"></div>
@@ -258,26 +243,12 @@
     });
 
     // Theme
-    const btnThemeDark = document.getElementById('btn-theme-dark');
-    const btnThemeLight = document.getElementById('btn-theme-light');
-
-    function setThemeUI(theme) {
-      document.getElementById('theme-variant').href = 'theme-' + theme + '.css';
-      btnThemeDark.classList.toggle('active', theme === 'dark');
-      btnThemeLight.classList.toggle('active', theme === 'light');
-    }
-
-    btnThemeDark.addEventListener('click', () => {
-      window.electronAPI.setTheme('dark');
-      setThemeUI('dark');
-    });
-    btnThemeLight.addEventListener('click', () => {
-      window.electronAPI.setTheme('light');
-      setThemeUI('light');
+    document.getElementById('btn-theme').addEventListener('click', () => {
+      window.electronAPI.openThemePicker();
     });
 
     window.electronAPI.onThemeChanged((theme) => {
-      setThemeUI(theme);
+      document.getElementById('theme-variant').href = 'theme-' + theme + '.css';
     });
 
     // Initial state
@@ -287,7 +258,7 @@
         window.electronAPI.getTheme(),
       ]);
       if (state) updateUI(state.volume, state.muted);
-      setThemeUI(theme || 'dark');
+      document.getElementById('theme-variant').href = 'theme-' + (theme || 'dark') + '.css';
     })();
   </script>
 </body>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Voly Themes</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="theme-dark.css" id="theme-variant">
+  <style>
+    body {
+      background: var(--surface-0);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Titlebar */
+    .titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 40px;
+      min-height: 40px;
+      padding: 0 6px 0 16px;
+      -webkit-app-region: drag;
+      border-bottom: 1px solid var(--border);
+    }
+    .titlebar-title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+    .titlebar-close {
+      -webkit-app-region: no-drag;
+      width: 32px; height: 32px;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-md);
+      color: var(--text-tertiary);
+      font-size: var(--font-size-lg);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition-normal), color var(--transition-normal);
+    }
+    .titlebar-close:hover {
+      background: var(--mute-red-hover);
+      color: var(--mute-red);
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+    .content::-webkit-scrollbar { width: 6px; }
+    .content::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb {
+      background: var(--voly-600);
+      border-radius: var(--radius-sm);
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+    }
+    .header p {
+      font-size: var(--font-size-xs);
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+
+    /* Theme Grid */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* Theme Card */
+    .theme-card {
+      background: var(--surface-1);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-2xl);
+      padding: 12px;
+      cursor: pointer;
+      transition: border-color var(--transition-normal), transform var(--transition-normal), box-shadow var(--transition-normal);
+    }
+    .theme-card:hover {
+      transform: scale(1.03);
+      border-color: var(--voly-400);
+    }
+    .theme-card.active {
+      border-color: var(--voly-500);
+      box-shadow: 0 0 16px var(--voly-glow);
+    }
+
+    /* Preview */
+    .theme-preview {
+      width: 100%;
+      height: 80px;
+      border-radius: var(--radius-lg);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .preview-bar {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      height: 6px;
+      border-radius: var(--radius-sm);
+      opacity: 0.8;
+    }
+    .preview-text {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+    }
+    .preview-dot {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 8px; height: 8px;
+      border-radius: var(--radius-full);
+    }
+
+    /* Card footer */
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-name {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-semibold);
+    }
+    .card-check {
+      font-size: var(--font-size-sm);
+      color: var(--voly-500);
+      opacity: 0;
+    }
+    .theme-card.active .card-check {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="titlebar">
+    <span class="titlebar-title">Themes</span>
+    <button class="titlebar-close" id="titlebar-close">&#x2715;</button>
+  </div>
+
+  <div class="content">
+    <div class="header">
+      <h1>Themes</h1>
+      <p>Choose a theme for Voly</p>
+    </div>
+
+    <div class="theme-grid" id="theme-grid"></div>
+  </div>
+
+  <script>
+    const THEMES = [
+      {
+        id: 'dark',
+        name: 'Dark',
+        preview: { bg: '#09090B', accent: '#8B5CF6', text: '#FAFAFA' },
+      },
+      {
+        id: 'light',
+        name: 'Light',
+        preview: { bg: '#FFFFFF', accent: '#8B5CF6', text: '#09090B' },
+      },
+    ];
+
+    const grid = document.getElementById('theme-grid');
+    let currentTheme = 'dark';
+
+    function renderCards() {
+      grid.innerHTML = '';
+      THEMES.forEach((t) => {
+        const card = document.createElement('div');
+        card.className = 'theme-card' + (t.id === currentTheme ? ' active' : '');
+        card.dataset.theme = t.id;
+
+        card.innerHTML = `
+          <div class="theme-preview" style="background: ${t.preview.bg}">
+            <span class="preview-text" style="color: ${t.preview.text}">Aa</span>
+            <span class="preview-dot" style="background: ${t.preview.accent}"></span>
+            <div class="preview-bar" style="background: ${t.preview.accent}"></div>
+          </div>
+          <div class="card-footer">
+            <span class="card-name">${t.name}</span>
+            <span class="card-check">&#x2713;</span>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          currentTheme = t.id;
+          window.electronAPI.setTheme(t.id);
+          document.querySelectorAll('.theme-card').forEach((c) => {
+            c.classList.toggle('active', c.dataset.theme === t.id);
+          });
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Theme sync
+    window.electronAPI.onThemeChanged((theme) => {
+      currentTheme = theme;
+      document.getElementById('theme-variant').href = 'theme-' + theme + '.css';
+      document.querySelectorAll('.theme-card').forEach((c) => {
+        c.classList.toggle('active', c.dataset.theme === theme);
+      });
+    });
+
+    // Init
+    (async () => {
+      const theme = await window.electronAPI.getTheme();
+      currentTheme = theme || 'dark';
+      document.getElementById('theme-variant').href = 'theme-' + currentTheme + '.css';
+      renderCards();
+    })();
+
+    document.getElementById('titlebar-close').addEventListener('click', () => window.close());
+  </script>
+</body>
+</html>

@@ -90,6 +90,11 @@ app.whenReady().then(() => {
     openSettings();
   });
 
+  ipcMain.handle('open-theme-picker', () => {
+    const { openThemePicker } = require('./tray');
+    openThemePicker();
+  });
+
   ipcMain.handle('quit-app', () => {
     app.quit();
   });
