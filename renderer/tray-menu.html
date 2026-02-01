@@ -31,10 +31,7 @@
 
     /* Menu item */
     .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
+      padding: 8px 16px;
       font-size: var(--font-size-md);
       color: var(--text-primary);
       cursor: pointer;
@@ -46,75 +43,21 @@
     .menu-item:active {
       background: var(--voly-active);
     }
-    .menu-item .icon {
-      width: 18px;
-      text-align: center;
-      font-size: var(--font-size-lg);
-      flex-shrink: 0;
-    }
-    .menu-item.muted .icon {
-      color: var(--mute-red);
-    }
     .menu-item.quit:hover {
       background: var(--mute-red-hover);
-    }
-    .menu-item.quit:hover .label {
       color: var(--mute-red-light);
     }
   </style>
 </head>
 <body>
   <div class="menu">
-    <div class="menu-item" id="btn-mute">
-      <span class="icon" id="mute-icon">&#x1F50A;</span>
-      <span class="label" id="mute-label">Mute</span>
-    </div>
-
+    <div class="menu-item" id="btn-theme">Theme</div>
+    <div class="menu-item" id="btn-settings">Settings</div>
     <div class="sep"></div>
-
-    <div class="menu-item" id="btn-theme">
-      <span class="icon">&#x1F3A8;</span>
-      <span class="label">Theme</span>
-    </div>
-    <div class="menu-item" id="btn-settings">
-      <span class="icon">&#x2699;</span>
-      <span class="label">Settings</span>
-    </div>
-
-    <div class="sep"></div>
-
-    <div class="menu-item quit" id="btn-quit">
-      <span class="icon">&#x2715;</span>
-      <span class="label">Quit</span>
-    </div>
+    <div class="menu-item quit" id="btn-quit">Quit</div>
   </div>
 
   <script>
-    const muteIcon = document.getElementById('mute-icon');
-    const muteLabel = document.getElementById('mute-label');
-    const btnMute = document.getElementById('btn-mute');
-
-    let isMuted = false;
-
-    function updateMuteUI(vol, muted) {
-      isMuted = muted;
-      if (muted) {
-        muteIcon.textContent = '\u{1F507}';
-        muteLabel.textContent = 'Unmute';
-        btnMute.classList.add('muted');
-      } else {
-        muteIcon.textContent = vol < 33 ? '\u{1F508}' : vol < 66 ? '\u{1F509}' : '\u{1F50A}';
-        muteLabel.textContent = 'Mute';
-        btnMute.classList.remove('muted');
-      }
-    }
-
-    // Buttons
-    btnMute.addEventListener('click', async () => {
-      const result = await window.electronAPI.trayToggleMute();
-      if (result) updateMuteUI(result.volume, result.muted);
-    });
-
     document.getElementById('btn-theme').addEventListener('click', () => {
       window.electronAPI.openThemePicker();
     });
@@ -127,27 +70,15 @@
       window.electronAPI.quitApp();
     });
 
-    // Receive state when menu is shown
-    window.electronAPI.onTrayMenuUpdate((data) => {
-      if (data.action === 'show') {
-        updateMuteUI(data.volume, data.muted);
-      }
-    });
-
     // Theme
     window.electronAPI.onThemeChanged((theme) => {
       document.getElementById('theme-variant').href = 'theme-' + theme + '.css';
     });
 
-    // Initial state
-    (async () => {
-      const [state, theme] = await Promise.all([
-        window.electronAPI.getTrayMenuState(),
-        window.electronAPI.getTheme(),
-      ]);
-      if (state) updateMuteUI(state.volume, state.muted);
+    // Initial theme
+    window.electronAPI.getTheme().then((theme) => {
       document.getElementById('theme-variant').href = 'theme-' + (theme || 'dark') + '.css';
-    })();
+    });
   </script>
 </body>
 </html>

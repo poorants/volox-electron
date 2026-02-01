@@ -15,8 +15,8 @@ function createTray(app) {
 
   // Pre-create menu popup (hidden)
   menuWindow = new BrowserWindow({
-    width: 200,
-    height: 170,
+    width: 180,
+    height: 130,
     frame: false,
     transparent: true,
     resizable: false,
@@ -46,16 +46,6 @@ function createTray(app) {
     const pos = getMenuPosition(bounds);
     menuWindow.setPosition(pos.x, pos.y, false);
     menuWindow.show();
-
-    // Send current volume state
-    const loudness = require('loudness');
-    Promise.all([loudness.getVolume(), loudness.getMuted()]).then(([volume, muted]) => {
-      menuWindow.webContents.send('tray-menu-action', {
-        action: 'show',
-        volume,
-        muted,
-      });
-    }).catch(() => {});
   };
 
   if (process.platform === 'darwin') {
@@ -70,8 +60,8 @@ function createTray(app) {
 function getMenuPosition(trayBounds) {
   const display = screen.getDisplayNearestPoint({ x: trayBounds.x, y: trayBounds.y });
   const { x: wx, y: wy, width: sw, height: sh } = display.workArea;
-  const menuW = 200;
-  const menuH = 170;
+  const menuW = 180;
+  const menuH = 130;
 
   let x = Math.round(trayBounds.x - menuW / 2 + trayBounds.width / 2);
   let y;

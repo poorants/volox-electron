@@ -456,6 +456,9 @@
     // Close
     document.getElementById('close-btn').addEventListener('click', () => window.close());
     document.getElementById('titlebar-close').addEventListener('click', () => window.close());
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !capturingField) window.close();
+    });
 
     // Theme
     window.electronAPI.getTheme().then((theme) => {
