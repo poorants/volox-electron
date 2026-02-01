@@ -1,10 +1,15 @@
 {
   "version": "2.0",
   "lastUpdated": "2026-01-31T07:09:13.440Z",
-  "activeFeatures": ["tray-context-menu"],
-  "primaryFeature": "tray-context-menu",
+  "activeFeatures": ["tray-context-menu", "theme-system"],
+  "primaryFeature": "theme-system",
   "features": {
     "tray-context-menu": {
+      "phase": "completed",
+      "startedAt": "2026-02-01T00:00:00.000Z",
+      "matchRate": null
+    },
+    "theme-system": {
       "phase": "completed",
       "startedAt": "2026-02-01T00:00:00.000Z",
       "matchRate": null
