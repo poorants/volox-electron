@@ -65,6 +65,35 @@ app.whenReady().then(() => {
     inputHook.cancelCapture();
   });
 
+  // IPC: Tray menu
+  ipcMain.handle('get-volume-state', async () => {
+    const vol = await getCurrentVolume();
+    const loudness = require('loudness');
+    const muted = await loudness.getMuted().catch(() => false);
+    return { volume: vol, muted };
+  });
+
+  ipcMain.handle('set-volume', async (_event, vol) => {
+    const loudness = require('loudness');
+    await loudness.setVolume(vol);
+    return true;
+  });
+
+  ipcMain.handle('toggle-mute-from-tray', async () => {
+    const result = await toggleMute();
+    setTrayState(result.muted ? 'muted' : 'normal');
+    return result;
+  });
+
+  ipcMain.handle('open-settings', () => {
+    const { openSettings } = require('./tray');
+    openSettings();
+  });
+
+  ipcMain.handle('quit-app', () => {
+    app.quit();
+  });
+
   // Match event against shortcut config
   function matchesShortcut(event, shortcut) {
     if (!shortcut || !event.modifiers[shortcut.modifier]) return false;

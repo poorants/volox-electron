@@ -15,4 +15,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onCaptureResult: (callback) => {
     ipcRenderer.on('capture-result', (_event, data) => callback(data));
   },
+  // Tray menu
+  getTrayMenuState: () => ipcRenderer.invoke('get-volume-state'),
+  setVolume: (vol) => ipcRenderer.invoke('set-volume', vol),
+  trayToggleMute: () => ipcRenderer.invoke('toggle-mute-from-tray'),
+  openSettings: () => ipcRenderer.invoke('open-settings'),
+  quitApp: () => ipcRenderer.invoke('quit-app'),
+  onTrayMenuUpdate: (callback) => {
+    ipcRenderer.on('tray-menu-action', (_event, data) => callback(data));
+  },
 });

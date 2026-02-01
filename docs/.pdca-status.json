@@ -1,9 +1,15 @@
 {
   "version": "2.0",
   "lastUpdated": "2026-01-31T07:09:13.440Z",
-  "activeFeatures": [],
-  "primaryFeature": null,
-  "features": {},
+  "activeFeatures": ["tray-context-menu"],
+  "primaryFeature": "tray-context-menu",
+  "features": {
+    "tray-context-menu": {
+      "phase": "completed",
+      "startedAt": "2026-02-01T00:00:00.000Z",
+      "matchRate": null
+    }
+  },
   "pipeline": {
     "currentPhase": 1,
     "level": "Dynamic",
