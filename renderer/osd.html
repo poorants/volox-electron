@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="theme-dark.css" id="theme-variant">
   <style>
     html, body {
       width: 100%; height: 100%;
@@ -119,6 +120,14 @@
       if (v < 66) return '\u{1F509}';
       return '\u{1F50A}';
     }
+
+    // Theme
+    window.electronAPI.getTheme().then((theme) => {
+      document.getElementById('theme-variant').href = 'theme-' + theme + '.css';
+    });
+    window.electronAPI.onThemeChanged((theme) => {
+      document.getElementById('theme-variant').href = 'theme-' + theme + '.css';
+    });
 
     window.electronAPI.onOsdUpdate((data) => {
       if (data.action === 'show') {

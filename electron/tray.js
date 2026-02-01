@@ -1,6 +1,7 @@
 const { Tray, BrowserWindow, screen } = require('electron');
 const path = require('path');
 const { createTrayIcon } = require('./tray-icon');
+const { getTheme } = require('./settings');
 
 let tray = null;
 let settingsWindow = null;
@@ -14,7 +15,7 @@ function createTray(app) {
   // Pre-create menu popup (hidden)
   menuWindow = new BrowserWindow({
     width: 280,
-    height: 220,
+    height: 290,
     frame: false,
     transparent: true,
     resizable: false,
@@ -69,7 +70,7 @@ function getMenuPosition(trayBounds) {
   const display = screen.getDisplayNearestPoint({ x: trayBounds.x, y: trayBounds.y });
   const { x: wx, y: wy, width: sw, height: sh } = display.workArea;
   const menuW = 280;
-  const menuH = 220;
+  const menuH = 290;
 
   let x = Math.round(trayBounds.x - menuW / 2 + trayBounds.width / 2);
   let y;
@@ -99,7 +100,7 @@ function openSettings() {
     resizable: false,
     frame: false,
     title: 'Voly',
-    backgroundColor: '#09090B',
+    backgroundColor: getTheme() === 'light' ? '#FFFFFF' : '#09090B',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="theme-dark.css" id="theme-variant">
   <style>
     html, body {
       width: 100%; height: 100%;
@@ -123,6 +124,15 @@
     .menu-item.quit:hover .label {
       color: var(--mute-red-light);
     }
+    .menu-item .check {
+      margin-left: auto;
+      font-size: var(--font-size-sm);
+      color: var(--voly-500);
+      opacity: 0;
+    }
+    .menu-item.active .check {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -143,6 +153,19 @@
     <div class="menu-item" id="btn-mute">
       <span class="icon" id="mute-icon">&#x1F50A;</span>
       <span class="label" id="mute-label">Mute</span>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="menu-item" id="btn-theme-dark" data-theme="dark">
+      <span class="icon">&#x1F319;</span>
+      <span class="label">Dark</span>
+      <span class="check">&#x2713;</span>
+    </div>
+    <div class="menu-item" id="btn-theme-light" data-theme="light">
+      <span class="icon">&#x2600;</span>
+      <span class="label">Light</span>
+      <span class="check">&#x2713;</span>
     </div>
 
     <div class="sep"></div>
@@ -234,10 +257,37 @@
       }
     });
 
+    // Theme
+    const btnThemeDark = document.getElementById('btn-theme-dark');
+    const btnThemeLight = document.getElementById('btn-theme-light');
+
+    function setThemeUI(theme) {
+      document.getElementById('theme-variant').href = 'theme-' + theme + '.css';
+      btnThemeDark.classList.toggle('active', theme === 'dark');
+      btnThemeLight.classList.toggle('active', theme === 'light');
+    }
+
+    btnThemeDark.addEventListener('click', () => {
+      window.electronAPI.setTheme('dark');
+      setThemeUI('dark');
+    });
+    btnThemeLight.addEventListener('click', () => {
+      window.electronAPI.setTheme('light');
+      setThemeUI('light');
+    });
+
+    window.electronAPI.onThemeChanged((theme) => {
+      setThemeUI(theme);
+    });
+
     // Initial state
     (async () => {
-      const state = await window.electronAPI.getTrayMenuState();
+      const [state, theme] = await Promise.all([
+        window.electronAPI.getTrayMenuState(),
+        window.electronAPI.getTheme(),
+      ]);
       if (state) updateUI(state.volume, state.muted);
+      setThemeUI(theme || 'dark');
     })();
   </script>
 </body>

@@ -61,6 +61,11 @@ const schema = {
     },
     default: { duration: 1500 },
   },
+  theme: {
+    type: 'string',
+    enum: ['dark', 'light'],
+    default: 'dark',
+  },
 };
 
 const store = new Store({ schema });
@@ -70,6 +75,7 @@ function getSettings() {
     shortcuts: store.get('shortcuts'),
     volume: store.get('volume'),
     osd: store.get('osd'),
+    theme: store.get('theme'),
   };
 }
 
@@ -77,6 +83,15 @@ function saveSettings(settings) {
   if (settings.shortcuts) store.set('shortcuts', settings.shortcuts);
   if (settings.volume) store.set('volume', settings.volume);
   if (settings.osd) store.set('osd', settings.osd);
+  if (settings.theme) store.set('theme', settings.theme);
 }
 
-module.exports = { getSettings, saveSettings };
+function getTheme() {
+  return store.get('theme');
+}
+
+function setTheme(theme) {
+  store.set('theme', theme);
+}
+
+module.exports = { getSettings, saveSettings, getTheme, setTheme };

@@ -20,7 +20,7 @@ function getAcceleratedStep(direction, baseStep) {
   accel.lastTime = now;
   return accel.step;
 }
-const { getSettings, saveSettings } = require('./settings');
+const { getSettings, saveSettings, getTheme, setTheme } = require('./settings');
 
 // Prevent multiple instances
 const gotTheLock = app.requestSingleInstanceLock();
@@ -92,6 +92,15 @@ app.whenReady().then(() => {
 
   ipcMain.handle('quit-app', () => {
     app.quit();
+  });
+
+  // IPC: Theme
+  ipcMain.handle('get-theme', () => getTheme());
+  ipcMain.handle('set-theme', (_event, theme) => {
+    setTheme(theme);
+    BrowserWindow.getAllWindows().forEach((win) => {
+      win.webContents.send('theme-changed', theme);
+    });
   });
 
   // Match event against shortcut config

@@ -24,4 +24,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onTrayMenuUpdate: (callback) => {
     ipcRenderer.on('tray-menu-action', (_event, data) => callback(data));
   },
+  // Theme
+  getTheme: () => ipcRenderer.invoke('get-theme'),
+  setTheme: (theme) => ipcRenderer.invoke('set-theme', theme),
+  onThemeChanged: (callback) => {
+    ipcRenderer.on('theme-changed', (_event, theme) => callback(theme));
+  },
 });

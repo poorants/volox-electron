@@ -1,11 +1,8 @@
 /* ============================================
-   Voly Theme — Common Reset & Default Import
-   ============================================ */
-
-@import url('theme-dark.css');
-
-/* ============================================
-   Global Reset & Base
+   Voly Theme — Common Reset
+   ============================================
+   Theme variants loaded via <link id="theme-variant">
+   in each HTML file (theme-dark.css / theme-light.css)
    ============================================ */
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
