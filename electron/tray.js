@@ -101,6 +101,9 @@ function openSettings() {
   settingsWindow.setMenuBarVisibility(false);
   settingsWindow.loadFile(path.join(__dirname, '..', 'renderer', 'settings.html'));
 
+  settingsWindow.on('blur', () => {
+    if (settingsWindow && !settingsWindow.isDestroyed()) settingsWindow.close();
+  });
   settingsWindow.on('closed', () => {
     settingsWindow = null;
   });
@@ -128,6 +131,9 @@ function openThemePicker() {
   themeWindow.setMenuBarVisibility(false);
   themeWindow.loadFile(path.join(__dirname, '..', 'renderer', 'theme-picker.html'));
 
+  themeWindow.on('blur', () => {
+    if (themeWindow && !themeWindow.isDestroyed()) themeWindow.close();
+  });
   themeWindow.on('closed', () => {
     themeWindow = null;
   });

@@ -1,16 +1,25 @@
 const { BrowserWindow, screen } = require('electron');
 const path = require('path');
+const { getTheme } = require('./settings');
 
 let osdWindow = null;
 let hideTimer = null;
 
-const OSD_WIDTH = 340;
-const OSD_HEIGHT = 90;
+const OSD_SIZES = {
+  default:      { w: 340, h: 90 },
+  'cyber-pulse': { w: 520, h: 50 },
+};
+
+function getOsdSize() {
+  const theme = getTheme();
+  return OSD_SIZES[theme] || OSD_SIZES.default;
+}
 
 function createOsdWindow() {
+  const size = getOsdSize();
   osdWindow = new BrowserWindow({
-    width: OSD_WIDTH,
-    height: OSD_HEIGHT,
+    width: size.w,
+    height: size.h,
     transparent: true,
     frame: false,
     alwaysOnTop: true,
@@ -36,10 +45,12 @@ function createOsdWindow() {
 
 function positionOsd() {
   if (!osdWindow) return;
+  const size = getOsdSize();
+  osdWindow.setSize(size.w, size.h);
   const { width: screenW, height: screenH } = screen.getPrimaryDisplay().workAreaSize;
   osdWindow.setPosition(
-    Math.round((screenW - OSD_WIDTH) / 2),
-    screenH - OSD_HEIGHT - 80
+    Math.round((screenW - size.w) / 2),
+    screenH - size.h - 80
   );
 }
 

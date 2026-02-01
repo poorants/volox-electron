@@ -63,7 +63,7 @@ const schema = {
   },
   theme: {
     type: 'string',
-    enum: ['dark', 'light'],
+    enum: ['dark', 'light', 'cyber-pulse'],
     default: 'dark',
   },
 };

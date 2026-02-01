@@ -18,6 +18,48 @@
       width: 100%;
       height: 100%;
     }
+
+    /* ── Volume Icon (PNG) ── */
+    .osd-icon {
+      width: 24px;
+      height: 24px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .osd-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: opacity var(--transition-fast) ease;
+    }
+    /* Level-based opacity */
+    .osd-icon[data-level="1"] img { opacity: 0.45; }
+    .osd-icon[data-level="2"] img { opacity: 0.7; }
+    .osd-icon[data-level="3"] img { opacity: 1; }
+    .osd-icon[data-level="muted"] img { opacity: 0.3; }
+    /* Mute X overlay */
+    .osd-icon .mute-x {
+      display: none;
+      position: absolute;
+      right: -2px;
+      bottom: -2px;
+      width: 12px;
+      height: 12px;
+    }
+    .osd-icon .mute-x::before,
+    .osd-icon .mute-x::after {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 10px; height: 2px;
+      background: var(--mute-red);
+      border-radius: 1px;
+    }
+    .osd-icon .mute-x::before { transform: translate(-50%, -50%) rotate(45deg); }
+    .osd-icon .mute-x::after { transform: translate(-50%, -50%) rotate(-45deg); }
+    .osd-icon[data-level="muted"] .mute-x { display: block; }
+
+    /* ── Default Layout (dark / light) ── */
     .osd-widget {
       display: flex;
       align-items: center;
@@ -28,27 +70,22 @@
       -webkit-backdrop-filter: blur(var(--blur-md));
       border: 1px solid var(--border-accent);
       border-radius: var(--radius-4xl);
+      box-shadow: var(--osd-border-glow, none);
       color: var(--text-primary);
       min-width: 300px;
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(10px) scale(0.98);
       transition: opacity var(--transition-normal) cubic-bezier(0.16, 1, 0.3, 1),
                   transform var(--transition-normal) cubic-bezier(0.16, 1, 0.3, 1);
     }
     .osd-widget.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
     .osd-widget.hiding {
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(6px) scale(0.98);
       transition: opacity var(--transition-slow) ease-in, transform var(--transition-slow) ease-in;
-    }
-    .osd-icon {
-      font-size: var(--font-size-icon);
-      width: 28px;
-      text-align: center;
-      flex-shrink: 0;
     }
     .osd-content { flex: 1; }
     .osd-header {
@@ -60,41 +97,68 @@
     .osd-label {
       font-size: var(--font-size-xs);
       font-weight: var(--font-weight-medium);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-secondary);
     }
     .osd-value {
       font-size: var(--font-size-2xl);
-      font-weight: var(--font-weight-semibold);
-      color: var(--text-primary);
+      font-weight: var(--font-weight-bold);
+      color: var(--osd-value-color, var(--text-primary));
       line-height: 1;
+      font-variant-numeric: tabular-nums;
     }
     .osd-bar-track {
+      position: relative;
       width: 100%;
-      height: 6px;
+      height: 5px;
       background: var(--bar-track);
       border-radius: var(--radius-sm);
-      overflow: hidden;
+      overflow: visible;
     }
     .osd-bar-fill {
       height: 100%;
       border-radius: var(--radius-sm);
       background: linear-gradient(90deg, var(--voly-600), var(--voly-400));
-      box-shadow: 0 0 12px var(--voly-glow), 0 0 4px var(--voly-glow-strong);
+      box-shadow: var(--osd-bar-glow, 0 0 12px var(--voly-glow), 0 0 4px var(--voly-glow-strong));
       transition: width var(--transition-fast) ease-out, background 200ms ease, box-shadow 200ms ease;
       width: 0%;
+      position: relative;
+    }
+    .osd-bar-fill::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--osd-glow-dot, var(--voly-400));
+      box-shadow: 0 0 8px var(--osd-glow-dot, var(--voly-glow));
+      opacity: 0;
+      transition: opacity var(--transition-fast) ease;
+    }
+    .osd-widget.visible .osd-bar-fill::after {
+      opacity: 1;
     }
     .osd-bar-fill.muted {
       background: var(--mute-red);
       box-shadow: 0 0 12px var(--mute-red-glow), 0 0 4px var(--mute-red-strong);
+    }
+    .osd-bar-fill.muted::after {
+      background: var(--mute-red);
+      box-shadow: 0 0 8px var(--mute-red-glow);
     }
   </style>
 </head>
 <body>
   <div class="osd-container">
     <div class="osd-widget" id="widget">
-      <div class="osd-icon" id="icon"></div>
+      <div class="osd-icon" id="icon" data-level="3">
+        <img src="../assets/sound.png" alt="volume">
+        <div class="mute-x"></div>
+      </div>
       <div class="osd-content">
         <div class="osd-header">
           <span class="osd-label" id="label">Volume</span>
@@ -113,12 +177,11 @@
     const value = document.getElementById('value');
     const bar = document.getElementById('bar');
 
-    function getVolumeIcon(v, muted) {
-      if (muted) return '\u{1F507}';
-      if (v === 0) return '\u{1F507}';
-      if (v < 33) return '\u{1F508}';
-      if (v < 66) return '\u{1F509}';
-      return '\u{1F50A}';
+    function setIconLevel(v, muted) {
+      if (muted || v === 0) icon.dataset.level = 'muted';
+      else if (v < 33) icon.dataset.level = '1';
+      else if (v < 66) icon.dataset.level = '2';
+      else icon.dataset.level = '3';
     }
 
     // Theme
@@ -132,7 +195,7 @@
     window.electronAPI.onOsdUpdate((data) => {
       if (data.action === 'show') {
         const isMuted = data.isMuted || false;
-        icon.textContent = getVolumeIcon(data.value, isMuted);
+        setIconLevel(data.value, isMuted);
         label.textContent = isMuted ? 'Muted' : 'Volume';
         value.textContent = isMuted ? 'OFF' : data.value + '%';
         bar.style.width = (isMuted ? 0 : data.value) + '%';
