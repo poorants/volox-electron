@@ -16,7 +16,7 @@ Settings 창의 Windows 기본 프레임(타이틀바, 닫기 버튼)과 스크�
 
 ### 2. 커스텀 타이틀바 추가 (`renderer/settings.html`)
 - 상단에 커스텀 타이틀바 영역 추가
-  - 왼쪽: "Voly" 텍스트 (또는 로고)
+  - 왼쪽: "Volox" 텍스트 (또는 로고)
   - 오른쪽: 닫기(✕) 버튼 (hover 시 neon glow)
 - `-webkit-app-region: drag` 로 드래그 가능
 - 버튼은 `-webkit-app-region: no-drag`
@@ -25,7 +25,7 @@ Settings 창의 Windows 기본 프레임(타이틀바, 닫기 버튼)과 스크�
 - `::-webkit-scrollbar` 계열 pseudo-element 스타일링
   - 너비: 6px
   - Track: `var(--surface-2)` (투명 느낌)
-  - Thumb: `var(--voly-500)` + border-radius
+  - Thumb: `var(--volox-500)` + border-radius
   - Hover 시 neon glow 효과
 
 ### 4. 윈도우 사이즈 조정

@@ -11,7 +11,7 @@
 | 1 | theme.css → 공통 리셋 + @import 구조 | ✅ | @import url('theme-dark.css') |
 | 2 | theme-dark.css 생성 (기존 토큰 이동) | ✅ | 52개 토큰 그대로 |
 | 3 | theme-light.css 생성 | ✅ | 52개 토큰 라이트 값 |
-| 4 | Violet 포인트 컬러 동일 유지 | ✅ | voly-400~700 동일 |
+| 4 | Violet 포인트 컬러 동일 유지 | ✅ | volox-400~700 동일 |
 | 5 | Glow opacity 라이트용 조정 | ✅ | 0.4→0.25, 0.6→0.35 |
 | 6 | Surface 라이트 전환 | ✅ | #FFF, #F4F4F5, #E4E4E7 |
 | 7 | Text 다크 on 라이트 전환 | ✅ | #09090B, #52525B, #A1A1AA |

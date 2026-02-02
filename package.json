@@ -1,7 +1,7 @@
 {
-  "name": "voly",
+  "name": "volox",
   "version": "2.0.0",
-  "description": "Voly - Volume, the way it should be.",
+  "description": "Volox - Volume, the way it should be.",
   "main": "electron/main.js",
   "scripts": {
     "dev": "electron .",
@@ -17,8 +17,8 @@
     "electron-builder": "^26.4.0"
   },
   "build": {
-    "appId": "com.voly.app",
-    "productName": "Voly",
+    "appId": "com.volox.app",
+    "productName": "Volox",
     "directories": {
       "output": "dist"
     },

@@ -16,14 +16,14 @@ renderer/
 
 ### 2.1 Colors
 ```css
---voly-400: #A78BFA;
---voly-500: #8B5CF6;
---voly-600: #7C3AED;
---voly-700: #6D28D9;
---voly-glow: rgba(139, 92, 246, 0.4);
---voly-glow-strong: rgba(139, 92, 246, 0.6);
---voly-hover: rgba(139, 92, 246, 0.1);
---voly-active: rgba(139, 92, 246, 0.18);
+--volox-400: #A78BFA;
+--volox-500: #8B5CF6;
+--volox-600: #7C3AED;
+--volox-700: #6D28D9;
+--volox-glow: rgba(139, 92, 246, 0.4);
+--volox-glow-strong: rgba(139, 92, 246, 0.6);
+--volox-hover: rgba(139, 92, 246, 0.1);
+--volox-active: rgba(139, 92, 246, 0.18);
 --surface-0: #09090B;
 --surface-1: #18181B;
 --surface-2: #27272A;
@@ -135,8 +135,8 @@ body {
 | `box-shadow: 0 8px 32px...` | `var(--shadow-menu)` |
 | `font-size: 11/13/14/20px` | 해당 토큰 |
 | `font-weight: 500/600` | 해당 토큰 |
-| `rgba(139, 92, 246, 0.1)` | `var(--voly-hover)` |
-| `rgba(139, 92, 246, 0.18)` | `var(--voly-active)` |
+| `rgba(139, 92, 246, 0.1)` | `var(--volox-hover)` |
+| `rgba(139, 92, 246, 0.18)` | `var(--volox-active)` |
 | `rgba(239, 68, 68, 0.1)` | `var(--mute-red-hover)` (근사치) |
 | `#FCA5A5` | `var(--mute-red-light)` |
 

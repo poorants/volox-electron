@@ -80,7 +80,7 @@ function getMenuPosition(trayBounds) {
 ```
 
 - 디자인: OSD와 동일한 glass morphism (backdrop-filter: blur(20px), 반투명 배경)
-- 앱 CSS 변수 공유 (--voly-500, --surface-0 등)
+- 앱 CSS 변수 공유 (--volox-500, --surface-0 등)
 - hover 시 neon glow 효과
 
 ### 2.4 IPC 통신
@@ -117,10 +117,10 @@ onTrayMenuUpdate: (cb) => ipcRenderer.on('tray-menu-action', (_e, d) => cb(d)),
 ## 4. 디자인 토큰 (settings.html과 공유)
 
 ```css
---voly-400: #A78BFA;
---voly-500: #8B5CF6;
---voly-600: #7C3AED;
---voly-glow: rgba(139, 92, 246, 0.4);
+--volox-400: #A78BFA;
+--volox-500: #8B5CF6;
+--volox-600: #7C3AED;
+--volox-glow: rgba(139, 92, 246, 0.4);
 --surface-0: #09090B;
 --surface-1: #18181B;
 --surface-2: #27272A;

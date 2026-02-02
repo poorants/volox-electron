@@ -2,7 +2,7 @@
 
 ## 요약
 
-Voly의 macOS 크로스플랫폼 지원을 구현했습니다. Windows 전용이었던 `input-hook.js`를 플랫폼별 모듈로 분리하고, macOS에서는 Electron `globalShortcut` 기반 키보드 단축키로 볼륨을 제어합니다.
+Volox의 macOS 크로스플랫폼 지원을 구현했습니다. Windows 전용이었던 `input-hook.js`를 플랫폼별 모듈로 분리하고, macOS에서는 Electron `globalShortcut` 기반 키보드 단축키로 볼륨을 제어합니다.
 
 ## 변경 파일
 

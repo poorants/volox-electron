@@ -13,7 +13,7 @@
 | 3 | osd.html :root 제거 + theme.css import | ✅ | link rel stylesheet |
 | 4 | settings.html :root 제거 + theme.css import | ✅ | link rel stylesheet |
 | 5 | tray-menu.html :root 제거 + theme.css import | ✅ | link rel stylesheet |
-| 6 | Colors 토큰화 (Primary) | ✅ | voly-400~700, glow, hover, active |
+| 6 | Colors 토큰화 (Primary) | ✅ | volox-400~700, glow, hover, active |
 | 7 | Colors 토큰화 (Surface) | ✅ | surface-0~2, glass-bg |
 | 8 | Colors 토큰화 (Border) | ✅ | border, border-accent, border-subtle |
 | 9 | Colors 토큰화 (Text) | ✅ | text-primary/secondary/tertiary |

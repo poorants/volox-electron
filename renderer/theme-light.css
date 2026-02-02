@@ -1,17 +1,17 @@
 /* ============================================
-   Voly Theme — Light (Electric Violet)
+   Volox Theme — Light (Electric Violet)
    ============================================ */
 
 :root {
   /* Primary — Violet 유지 */
-  --voly-400: #A78BFA;
-  --voly-500: #8B5CF6;
-  --voly-600: #7C3AED;
-  --voly-700: #6D28D9;
-  --voly-glow: rgba(139, 92, 246, 0.25);
-  --voly-glow-strong: rgba(139, 92, 246, 0.35);
-  --voly-hover: rgba(139, 92, 246, 0.08);
-  --voly-active: rgba(139, 92, 246, 0.14);
+  --volox-400: #A78BFA;
+  --volox-500: #8B5CF6;
+  --volox-600: #7C3AED;
+  --volox-700: #6D28D9;
+  --volox-glow: rgba(139, 92, 246, 0.25);
+  --volox-glow-strong: rgba(139, 92, 246, 0.35);
+  --volox-hover: rgba(139, 92, 246, 0.08);
+  --volox-active: rgba(139, 92, 246, 0.14);
 
   /* Surfaces — Light */
   --surface-0: #FFFFFF;

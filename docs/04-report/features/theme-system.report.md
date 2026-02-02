@@ -28,7 +28,7 @@ osd.html, settings.html, tray-menu.html에 각각 인라인으로 중복 정의�
 
 | 카테고리 | 토큰 수 | 예시 |
 |----------|---------|------|
-| Colors - Primary | 8 | --voly-400 ~ --voly-active |
+| Colors - Primary | 8 | --volox-400 ~ --volox-active |
 | Colors - Surface | 4 | --surface-0 ~ --glass-bg |
 | Colors - Border | 3 | --border, --border-accent, --border-subtle |
 | Colors - Text | 3 | --text-primary/secondary/tertiary |

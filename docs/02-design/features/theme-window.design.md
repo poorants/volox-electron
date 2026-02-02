@@ -30,7 +30,7 @@ JavaScript로 카드를 동적 생성하여 향후 테마 추가 시 배열에�
 ### 카드 스타일
 - 120x140 크기
 - 프리뷰: 해당 테마의 bg + accent bar + text 미리보기
-- 선택 시: border-color voly-500 + 체크마크
+- 선택 시: border-color volox-500 + 체크마크
 - hover: 살짝 scale up + glow
 
 ## 2. IPC

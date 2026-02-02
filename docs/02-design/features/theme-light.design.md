@@ -40,14 +40,14 @@ body {
 
 | 카테고리 | 토큰 | Dark 값 | Light 값 |
 |----------|------|---------|----------|
-| Primary | --voly-400 | #A78BFA | #A78BFA |
-| Primary | --voly-500 | #8B5CF6 | #8B5CF6 |
-| Primary | --voly-600 | #7C3AED | #7C3AED |
-| Primary | --voly-700 | #6D28D9 | #6D28D9 |
-| Primary | --voly-glow | rgba(139,92,246,0.4) | rgba(139,92,246,0.25) |
-| Primary | --voly-glow-strong | rgba(139,92,246,0.6) | rgba(139,92,246,0.35) |
-| Primary | --voly-hover | rgba(139,92,246,0.1) | rgba(139,92,246,0.08) |
-| Primary | --voly-active | rgba(139,92,246,0.18) | rgba(139,92,246,0.14) |
+| Primary | --volox-400 | #A78BFA | #A78BFA |
+| Primary | --volox-500 | #8B5CF6 | #8B5CF6 |
+| Primary | --volox-600 | #7C3AED | #7C3AED |
+| Primary | --volox-700 | #6D28D9 | #6D28D9 |
+| Primary | --volox-glow | rgba(139,92,246,0.4) | rgba(139,92,246,0.25) |
+| Primary | --volox-glow-strong | rgba(139,92,246,0.6) | rgba(139,92,246,0.35) |
+| Primary | --volox-hover | rgba(139,92,246,0.1) | rgba(139,92,246,0.08) |
+| Primary | --volox-active | rgba(139,92,246,0.18) | rgba(139,92,246,0.14) |
 | Surface | --surface-0 | #09090B | #FFFFFF |
 | Surface | --surface-1 | #18181B | #F4F4F5 |
 | Surface | --surface-2 | #27272A | #E4E4E7 |

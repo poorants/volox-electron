@@ -277,8 +277,8 @@ const DEFAULTS = platform === 'darwin'
     "build:win": "electron-builder --win"
   },
   "build": {
-    "appId": "com.voly.app",
-    "productName": "Voly",
+    "appId": "com.volox.app",
+    "productName": "Volox",
     "directories": { "output": "dist" },
     "files": [
       "electron/**/*",

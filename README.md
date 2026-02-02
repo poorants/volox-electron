@@ -1,4 +1,4 @@
-# Voly
+# Volox
 
 > Volume, the way it should be.
 

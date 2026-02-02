@@ -1,6 +1,6 @@
 # Plan: Cross-Platform macOS Support
 
-> Voly의 macOS 지원을 위한 크로스플랫폼 분리 계획
+> Volox의 macOS 지원을 위한 크로스플랫폼 분리 계획
 
 ## 1. 현황 분석
 

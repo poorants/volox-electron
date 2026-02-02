@@ -22,7 +22,7 @@ export default function Nav() {
           <span className="w-8 h-8 bg-gradient-to-br from-violet-600 to-violet-400 rounded-[10px] flex items-center justify-center text-xs font-extrabold text-white shadow-[0_0_20px_rgba(139,92,246,0.3)]">
             Vy
           </span>
-          <span>Voly</span>
+          <span>Volox</span>
         </a>
         <div className="flex items-center gap-8">
           <a href="#features" className="hidden sm:block text-sm font-medium text-violet-200/60 hover:text-white transition-colors">Features</a>

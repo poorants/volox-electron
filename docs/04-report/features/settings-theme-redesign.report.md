@@ -19,7 +19,7 @@ Settings 창의 Windows 시스템 프레임과 스크롤바를 프로젝트 테�
 - `height: 520` → `height: 540` (타이틀바 여유)
 
 ### `renderer/settings.html`
-- 커스텀 타이틀바 추가 ("Voly Settings" + ✕ 닫기 버튼)
+- 커스텀 타이틀바 추가 ("Volox Settings" + ✕ 닫기 버튼)
 - `-webkit-app-region: drag` 로 창 드래그 지원
 - `.content` wrapper로 스크롤 영역 분리
 - 커스텀 스크롤바: 6px / Electric Violet 테마 / hover glow

@@ -19,7 +19,7 @@
    resizable: false,
 -  frame: true,
 +  frame: false,
-   title: 'Voly',
+   title: 'Volox',
    backgroundColor: '#09090B',
 ```
 
@@ -31,7 +31,7 @@
 #### HTML 구조 (body 최상단)
 ```html
 <div class="titlebar">
-  <span class="titlebar-title">Voly Settings</span>
+  <span class="titlebar-title">Volox Settings</span>
   <button class="titlebar-close" id="titlebar-close">✕</button>
 </div>
 ```
@@ -89,12 +89,12 @@ document.getElementById('titlebar-close').addEventListener('click', () => window
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--voly-600);
+  background: var(--volox-600);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--voly-500);
-  box-shadow: 0 0 8px var(--voly-glow);
+  background: var(--volox-500);
+  box-shadow: 0 0 8px var(--volox-glow);
 }
 ```
 

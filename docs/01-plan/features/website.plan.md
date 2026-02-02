@@ -1,16 +1,16 @@
 # Plan: website
 
-> Voly 제품 소개 웹사이트 — Awwwards 수준의 세련된 랜딩페이지
+> Volox 제품 소개 웹사이트 — Awwwards 수준의 세련된 랜딩페이지
 
 ## 1. 배경 (Background)
 
-Voly는 Windows 시스템 볼륨을 단축키+마우스 휠로 조절하는 트레이 유틸리티.
+Volox는 Windows 시스템 볼륨을 단축키+마우스 휠로 조절하는 트레이 유틸리티.
 제품의 가치를 전달하고 다운로드를 유도할 세련된 소개 페이지가 필요.
 
 ## 2. 목표 (Goals)
 
 - Awwwards 등록 수준의 비주얼 퀄리티
-- Voly 브랜드(Electric Violet, Glass morphism, Neon glow) 일관성
+- Volox 브랜드(Electric Violet, Glass morphism, Neon glow) 일관성
 - 단일 페이지, 정적 HTML/CSS/JS (프레임워크 없음)
 - `/website` 디렉토리에 독립 구성
 

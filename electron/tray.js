@@ -11,7 +11,7 @@ let themeWindow = null;
 function createTray(app) {
   const icon = createTrayIcon('normal');
   tray = new Tray(icon);
-  tray.setToolTip('Voly - Volume, the way it should be.');
+  tray.setToolTip('Volox - Volume, the way it should be.');
 
   // Pre-create menu popup (hidden)
   menuWindow = new BrowserWindow({
@@ -89,7 +89,7 @@ function openSettings() {
     height: 540,
     resizable: false,
     frame: false,
-    title: 'Voly',
+    title: 'Volox',
     backgroundColor: getTheme() === 'light' ? '#FFFFFF' : '#09090B',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -119,7 +119,7 @@ function openThemePicker() {
     height: 400,
     resizable: false,
     frame: false,
-    title: 'Voly Themes',
+    title: 'Volox Themes',
     backgroundColor: getTheme() === 'light' ? '#FFFFFF' : '#09090B',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

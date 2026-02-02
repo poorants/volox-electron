@@ -27,7 +27,7 @@
 - [ ] 메뉴 외부 클릭 시 자동 닫힘
 
 ### 비기능 요구사항
-- [ ] 앱 디자인 시스템 준수 (--voly-500, --surface-0, glass morphism)
+- [ ] 앱 디자인 시스템 준수 (--volox-500, --surface-0, glass morphism)
 - [ ] 트레이 아이콘 위치 기반으로 팝업 위치 자동 계산
 - [ ] Windows / macOS 모두 지원
 - [ ] 메뉴 표시 지연 없음 (사전 생성 + show/hide 패턴)

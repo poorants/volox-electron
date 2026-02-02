@@ -1,8 +1,8 @@
-# Voly
+# Volox
 
-> Volume, the way it should be.
+> Volo + Vox — 가볍고 편하게, 확실한 편의를 제공하는 볼륨 제어
 
-Windows 시스템 볼륨을 단축키+마우스 휠로 조절하는 시스템 트레이 유틸리티.
+Windows/Mac 데스크톱 트레이 앱. 볼륨·뮤트 제어를 가볍고 편하게.
 
 ## Level: Starter
 
@@ -52,5 +52,5 @@ Windows 시스템 볼륨을 단축키+마우스 휠로 조절하는 시스템 �
 - [x] 로그인 기능 (Google OAuth + Firebase Auth) - 트레이 메뉴에서 로그인/로그아웃
 - [x] 사용자 정보 / 구독 테이블 연동 (Firestore users/subscriptions)
 - [x] 단축키 매칭 시 원본 이벤트 차단 + 키보드 훅
-- [ ] GitHub Actions 빌드 자동화 + 홈페이지 & 다운로드 배포 (`voly` 퍼블릭 저장소)
+- [ ] GitHub Actions 빌드 자동화 + 홈페이지 & 다운로드 배포 (`volox` 퍼블릭 저장소)
 - [ ] 자동 업데이트 구성 (electron-updater + GitHub Releases)

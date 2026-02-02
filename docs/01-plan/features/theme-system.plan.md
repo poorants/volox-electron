@@ -50,12 +50,12 @@
 
 ```
 Colors (색상)
-├── Primary: --voly-400 ~ --voly-700
+├── Primary: --volox-400 ~ --volox-700
 ├── Surface: --surface-0 ~ --surface-2
 ├── Border: --border, --border-accent
 ├── Text: --text-primary, --text-secondary, --text-tertiary
 ├── Semantic: --mute-red, --mute-red-glow, --success, --success-glow
-└── Glow: --voly-glow, --voly-glow-strong
+└── Glow: --volox-glow, --volox-glow-strong
 
 Typography (서체)
 ├── --font-family

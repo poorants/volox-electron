@@ -1,18 +1,18 @@
 /* ============================================
-   Voly Theme — Cyber Pulse
+   Volox Theme — Cyber Pulse
    Fullwidth slim notification bar
    ============================================ */
 
 :root {
   /* Primary — Cyan/Teal 네온 */
-  --voly-400: #22D3EE;
-  --voly-500: #06B6D4;
-  --voly-600: #0891B2;
-  --voly-700: #0E7490;
-  --voly-glow: rgba(6, 182, 212, 0.45);
-  --voly-glow-strong: rgba(6, 182, 212, 0.7);
-  --voly-hover: rgba(6, 182, 212, 0.1);
-  --voly-active: rgba(6, 182, 212, 0.2);
+  --volox-400: #22D3EE;
+  --volox-500: #06B6D4;
+  --volox-600: #0891B2;
+  --volox-700: #0E7490;
+  --volox-glow: rgba(6, 182, 212, 0.45);
+  --volox-glow-strong: rgba(6, 182, 212, 0.7);
+  --volox-hover: rgba(6, 182, 212, 0.1);
+  --volox-active: rgba(6, 182, 212, 0.2);
 
   /* Surfaces */
   --surface-0: #030712;

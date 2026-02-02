@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Voly Settings</title>
+  <title>Volox Settings</title>
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="theme-dark.css" id="theme-variant">
   <style>
@@ -63,12 +63,12 @@
       background: transparent;
     }
     .content::-webkit-scrollbar-thumb {
-      background: var(--voly-600);
+      background: var(--volox-600);
       border-radius: var(--radius-sm);
     }
     .content::-webkit-scrollbar-thumb:hover {
-      background: var(--voly-500);
-      box-shadow: 0 0 8px var(--voly-glow);
+      background: var(--volox-500);
+      box-shadow: 0 0 8px var(--volox-glow);
     }
 
     /* Header */
@@ -80,11 +80,11 @@
     }
     .header-logo {
       width: 40px; height: 40px;
-      background: linear-gradient(135deg, var(--voly-600), var(--voly-400));
+      background: linear-gradient(135deg, var(--volox-600), var(--volox-400));
       border-radius: var(--radius-xl);
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; font-weight: var(--font-weight-extrabold); color: white;
-      box-shadow: 0 0 20px var(--voly-glow);
+      box-shadow: 0 0 20px var(--volox-glow);
     }
     .header-text h1 {
       font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); line-height: 1.2;
@@ -150,17 +150,17 @@
       border-color: var(--border);
     }
     .shortcut-field.capturing {
-      border-color: var(--voly-500);
+      border-color: var(--volox-500);
       color: var(--text-tertiary);
       animation: capture-pulse 1.5s infinite;
     }
     .shortcut-field.captured {
-      border-color: var(--voly-500);
+      border-color: var(--volox-500);
       transition: border-color 1s ease;
     }
     @keyframes capture-pulse {
-      0%, 100% { border-color: var(--voly-500); box-shadow: 0 0 8px var(--voly-glow); }
-      50% { border-color: var(--voly-400); box-shadow: 0 0 16px var(--voly-glow-strong); }
+      0%, 100% { border-color: var(--volox-500); box-shadow: 0 0 8px var(--volox-glow); }
+      50% { border-color: var(--volox-400); box-shadow: 0 0 16px var(--volox-glow-strong); }
     }
     .btn-reset-shortcut {
       width: 32px; height: 32px;
@@ -174,7 +174,7 @@
       transition: color var(--transition-normal), border-color var(--transition-normal);
     }
     .btn-reset-shortcut:hover {
-      color: var(--voly-400);
+      color: var(--volox-400);
       border-color: var(--border);
     }
 
@@ -204,13 +204,13 @@
       appearance: none;
       width: 16px; height: 16px;
       border-radius: var(--radius-full);
-      background: var(--voly-500);
+      background: var(--volox-500);
       cursor: pointer;
-      box-shadow: 0 0 8px var(--voly-glow);
+      box-shadow: 0 0 8px var(--volox-glow);
       transition: box-shadow var(--transition-normal);
     }
     .slider-row input[type="range"]::-webkit-slider-thumb:hover {
-      box-shadow: 0 0 14px var(--voly-glow-strong);
+      box-shadow: 0 0 14px var(--volox-glow-strong);
     }
     .slider-value {
       font-size: var(--font-size-md);
@@ -262,8 +262,8 @@
       transition: transform var(--transition-normal), background var(--transition-normal);
     }
     .toggle-switch input:checked + .toggle-slider {
-      background: var(--voly-600);
-      box-shadow: 0 0 8px var(--voly-glow);
+      background: var(--volox-600);
+      box-shadow: 0 0 8px var(--volox-glow);
     }
     .toggle-switch input:checked + .toggle-slider::before {
       transform: translateX(18px);
@@ -288,13 +288,13 @@
     }
     .btn:active { transform: scale(0.97); }
     .btn-save {
-      background: var(--voly-600);
+      background: var(--volox-600);
       color: white;
-      box-shadow: 0 0 16px var(--voly-glow);
+      box-shadow: 0 0 16px var(--volox-glow);
     }
     .btn-save:hover {
-      background: var(--voly-500);
-      box-shadow: 0 0 24px var(--voly-glow-strong);
+      background: var(--volox-500);
+      box-shadow: 0 0 24px var(--volox-glow-strong);
     }
     .btn-save.saved {
       background: var(--success);
@@ -322,7 +322,7 @@
 <body>
 
   <div class="titlebar">
-    <span class="titlebar-title">Voly Settings</span>
+    <span class="titlebar-title">Volox Settings</span>
     <button class="titlebar-close" id="titlebar-close">&#x2715;</button>
   </div>
 
@@ -331,7 +331,7 @@
   <div class="header">
     <div class="header-logo">Vy</div>
     <div class="header-text">
-      <h1>Voly</h1>
+      <h1>Volox</h1>
       <p>Volume, the way it should be.</p>
     </div>
   </div>

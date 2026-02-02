@@ -64,7 +64,7 @@ async function openAuthWindow() {
     height: 650,
     resizable: false,
     frame: false,
-    title: 'Voly - Sign In',
+    title: 'Volox - Sign In',
     backgroundColor: getTheme() === 'light' ? '#FFFFFF' : '#09090B',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
