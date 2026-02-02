@@ -44,6 +44,9 @@ app.whenReady().then(() => {
   ipcMain.handle('get-settings', () => getSettings());
   ipcMain.handle('save-settings', (_event, settings) => {
     saveSettings(settings);
+    if (inputHook.setShortcuts) {
+      inputHook.setShortcuts(getSettings().shortcuts);
+    }
     if (inputHook.bindShortcuts) {
       inputHook.bindShortcuts(getSettings().shortcuts);
     }
@@ -167,7 +170,7 @@ app.whenReady().then(() => {
     const shortcuts = currentSettings.shortcuts;
     const osdDuration = currentSettings.osd.duration;
 
-    // macOS: keyboard events have action already resolved
+    // Keyboard events with action already resolved (macOS globalShortcut / Windows KB hook)
     if (event.type === 'keyboard') {
       if (event.action === 'volumeUp') {
         const step = getAcceleratedStep('up', currentSettings.volume.step);
@@ -236,6 +239,11 @@ app.whenReady().then(() => {
       }
     }
   });
+
+  // Windows: pass shortcuts config to hook for event blocking
+  if (inputHook.setShortcuts) {
+    inputHook.setShortcuts(getSettings().shortcuts);
+  }
 
   // macOS: bind shortcuts after hook starts
   if (inputHook.bindShortcuts) {
