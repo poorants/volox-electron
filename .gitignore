@@ -167,3 +167,4 @@ dist
 
 # bkit
 docs/.bkit-memory.json
+docs/.pdca-status.json
