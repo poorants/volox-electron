@@ -80,6 +80,14 @@ const schema = {
     },
     default: null,
   },
+  subscription: {
+    type: ['object', 'null'],
+    properties: {
+      plan: { type: 'string', enum: ['free', 'pro'], default: 'free' },
+      status: { type: 'string', enum: ['active', 'expired', 'cancelled'], default: 'active' },
+    },
+    default: null,
+  },
 };
 
 const store = new Store({ schema });
@@ -127,4 +135,19 @@ function setUser(user) {
   }
 }
 
-module.exports = { getSettings, saveSettings, getTheme, setTheme, getUser, setUser };
+function getSubscription() {
+  return store.get('subscription') || null;
+}
+
+function setSubscription(subscription) {
+  if (subscription) {
+    store.set('subscription', {
+      plan: subscription.plan,
+      status: subscription.status,
+    });
+  } else {
+    store.delete('subscription');
+  }
+}
+
+module.exports = { getSettings, saveSettings, getTheme, setTheme, getUser, setUser, getSubscription, setSubscription };

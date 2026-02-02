@@ -146,10 +146,12 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js';
     import { getAuth, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
+    import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 
     const config = await window.electronAPI.getFirebaseConfig();
     const app = initializeApp(config);
     const auth = getAuth(app);
+    const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
     const btnGoogle = document.getElementById('btn-google');
@@ -165,6 +167,39 @@
       try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
+
+        // Upsert user document in Firestore
+        await setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          lastLoginAt: serverTimestamp(),
+        }, { merge: true });
+
+        // Set createdAt only if it doesn't exist yet (first login)
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (!userDoc.data().createdAt) {
+          await setDoc(doc(db, 'users', user.uid), { createdAt: serverTimestamp() }, { merge: true });
+        }
+
+        // Initialize subscription if it doesn't exist
+        const subDoc = await getDoc(doc(db, 'subscriptions', user.uid));
+        let subscription;
+        if (!subDoc.exists()) {
+          subscription = { plan: 'free', status: 'active' };
+          await setDoc(doc(db, 'subscriptions', user.uid), {
+            uid: user.uid,
+            ...subscription,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          });
+        } else {
+          subscription = { plan: subDoc.data().plan, status: subDoc.data().status };
+        }
+
+        // Cache subscription locally
+        await window.electronAPI.saveSubscription(subscription);
 
         await window.electronAPI.signIn({
           uid: user.uid,

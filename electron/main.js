@@ -23,7 +23,7 @@ function getAcceleratedStep(direction, baseStep) {
   accel.lastTime = now;
   return accel.step;
 }
-const { getSettings, saveSettings, getTheme, setTheme, getUser, setUser } = require('./settings');
+const { getSettings, saveSettings, getTheme, setTheme, getUser, setUser, getSubscription, setSubscription } = require('./settings');
 
 // Prevent multiple instances
 const gotTheLock = app.requestSingleInstanceLock();
@@ -137,6 +137,12 @@ app.whenReady().then(() => {
     BrowserWindow.getAllWindows().forEach((win) => {
       win.webContents.send('auth-state-changed', null);
     });
+    return true;
+  });
+
+  ipcMain.handle('get-subscription', () => getSubscription());
+  ipcMain.handle('save-subscription', (_event, sub) => {
+    setSubscription(sub);
     return true;
   });
 

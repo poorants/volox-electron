@@ -48,4 +48,4 @@ Windows 시스템 볼륨을 단축키+마우스 휠로 조절하는 시스템 �
 
 ## Roadmap
 - [x] 로그인 기능 (Google OAuth + Firebase Auth) - 트레이 메뉴에서 로그인/로그아웃
-- [ ] 사용자 정보 / 구독 테이블 연동
+- [x] 사용자 정보 / 구독 테이블 연동 (Firestore users/subscriptions)
