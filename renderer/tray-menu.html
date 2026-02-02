@@ -17,22 +17,23 @@
       -webkit-backdrop-filter: blur(var(--blur-lg));
       border: 1px solid var(--border-accent);
       border-radius: var(--radius-3xl);
-      padding: 6px 0;
+      padding: 4px 0;
+      position: relative;
       box-shadow: var(--shadow-menu);
     }
 
     /* Separator */
     .sep {
       height: 1px;
-      margin: 4px 12px;
+      margin: 3px 12px;
       background: var(--border);
       opacity: 0.5;
     }
 
     /* Menu item */
     .menu-item {
-      padding: 8px 16px;
-      font-size: var(--font-size-md);
+      padding: 6px 14px;
+      font-size: 12px;
       color: var(--text-primary);
       cursor: pointer;
       transition: background var(--transition-fast);
@@ -48,9 +49,9 @@
       color: var(--mute-red-light);
     }
 
-    /* User section */
+    /* User section — row: avatar | info | logout */
     .user-section {
-      padding: 8px 16px;
+      padding: 8px 14px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -60,39 +61,90 @@
       height: 28px;
       border-radius: 50%;
       border: 1.5px solid var(--border-accent);
+      flex-shrink: 0;
     }
     .user-info {
       flex: 1;
       min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
     }
     .user-name {
-      font-size: var(--font-size-sm);
+      font-size: 11px;
       font-weight: 600;
       color: var(--text-primary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .user-email {
-      font-size: 10px;
+    .plan-badge {
+      font-size: 9px;
       color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
     .btn-signout {
-      font-size: 10px;
-      color: var(--text-secondary);
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      padding: 2px 8px;
+      color: var(--text-secondary);
       border-radius: var(--radius-lg);
       transition: all var(--transition-fast);
-      white-space: nowrap;
     }
     .btn-signout:hover {
       background: var(--mute-red-hover);
       color: var(--mute-red-light);
     }
+    .btn-signout svg {
+      width: 14px;
+      height: 14px;
+    }
+    /* Confirm overlay */
+    .confirm-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 10;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: var(--radius-3xl);
+    }
+    .confirm-overlay.show { display: flex; }
+    .confirm-text {
+      font-size: 11px;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .confirm-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    .confirm-btn {
+      font-size: 10px;
+      padding: 4px 14px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      border: none;
+      font-family: var(--font-family);
+      transition: all var(--transition-fast);
+    }
+    .confirm-btn.yes {
+      background: var(--mute-red-hover);
+      color: var(--mute-red-light);
+    }
+    .confirm-btn.yes:hover { opacity: 0.8; }
+    .confirm-btn.no {
+      background: var(--voly-hover);
+      color: var(--text-primary);
+    }
+    .confirm-btn.no:hover { opacity: 0.8; }
   </style>
 </head>
 <body>
@@ -104,9 +156,23 @@
       <img class="user-avatar" id="user-avatar" src="" alt="">
       <div class="user-info">
         <div class="user-name" id="user-name"></div>
-        <div class="user-email" id="user-email"></div>
+        <div class="plan-badge" id="plan-badge">Free</div>
       </div>
-      <div class="btn-signout" id="btn-signout">Sign Out</div>
+      <div class="btn-signout" id="btn-signout" title="Sign Out">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </div>
+    </div>
+    <!-- Sign out confirm -->
+    <div class="confirm-overlay" id="confirm-overlay">
+      <div class="confirm-text">Sign out?</div>
+      <div class="confirm-buttons">
+        <button class="confirm-btn yes" id="confirm-yes">Yes</button>
+        <button class="confirm-btn no" id="confirm-no">Cancel</button>
+      </div>
     </div>
     <div class="sep" id="auth-sep"></div>
     <div class="menu-item" id="btn-theme">Theme</div>
@@ -119,8 +185,10 @@
     const btnSignin = document.getElementById('btn-signin');
     const userSection = document.getElementById('user-section');
     const userAvatar = document.getElementById('user-avatar');
+    const planBadge = document.getElementById('plan-badge');
+
     const userName = document.getElementById('user-name');
-    const userEmail = document.getElementById('user-email');
+    const confirmOverlay = document.getElementById('confirm-overlay');
 
     function updateAuthUI(user) {
       if (user) {
@@ -128,25 +196,45 @@
         userSection.style.display = 'flex';
         userAvatar.src = user.photoURL || '';
         userName.textContent = user.displayName || 'User';
-        userEmail.textContent = user.email || '';
       } else {
         btnSignin.style.display = '';
         userSection.style.display = 'none';
       }
     }
 
+    function updateSubscriptionUI() {
+      window.electronAPI.getSubscription().then((sub) => {
+        planBadge.textContent = (sub && sub.plan) ? sub.plan : 'Free';
+      });
+    }
+
     // Initial state
-    window.electronAPI.getUser().then(updateAuthUI);
+    window.electronAPI.getUser().then((user) => {
+      updateAuthUI(user);
+      if (user) updateSubscriptionUI();
+    });
 
     // Listen for auth changes
-    window.electronAPI.onAuthStateChanged(updateAuthUI);
+    window.electronAPI.onAuthStateChanged((user) => {
+      updateAuthUI(user);
+      if (user) updateSubscriptionUI();
+    });
 
     btnSignin.addEventListener('click', () => {
       window.electronAPI.openAuthWindow();
     });
 
     document.getElementById('btn-signout').addEventListener('click', () => {
+      confirmOverlay.classList.add('show');
+    });
+
+    document.getElementById('confirm-yes').addEventListener('click', () => {
+      confirmOverlay.classList.remove('show');
       window.electronAPI.signOut();
+    });
+
+    document.getElementById('confirm-no').addEventListener('click', () => {
+      confirmOverlay.classList.remove('show');
     });
 
     document.getElementById('btn-theme').addEventListener('click', () => {

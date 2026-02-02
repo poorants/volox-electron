@@ -15,8 +15,8 @@ function createTray(app) {
 
   // Pre-create menu popup (hidden)
   menuWindow = new BrowserWindow({
-    width: 220,
-    height: 180,
+    width: 200,
+    height: 200,
     frame: false,
     transparent: true,
     resizable: false,
@@ -48,9 +48,8 @@ function createTray(app) {
     menuWindow.show();
   };
 
-  if (process.platform === 'darwin') {
-    tray.on('click', showMenu);
-  } else {
+  tray.on('click', showMenu);
+  if (process.platform !== 'darwin') {
     tray.on('right-click', showMenu);
   }
 
@@ -60,8 +59,8 @@ function createTray(app) {
 function getMenuPosition(trayBounds) {
   const display = screen.getDisplayNearestPoint({ x: trayBounds.x, y: trayBounds.y });
   const { x: wx, y: wy, width: sw, height: sh } = display.workArea;
-  const menuW = 220;
-  const menuH = 180;
+  const menuW = 200;
+  const menuH = 200;
 
   let x = Math.round(trayBounds.x - menuW / 2 + trayBounds.width / 2);
   let y;
