@@ -8,7 +8,7 @@ Windows 시스템 볼륨을 단축키+마우스 휠로 조절하는 시스템 �
 
 ## Tech Stack
 - Electron (순수 HTML/CSS/JS renderer)
-- koffi (Win32 WH_MOUSE_LL 글로벌 마우스 훅)
+- koffi (Win32 WH_MOUSE_LL + WH_KEYBOARD_LL 글로벌 훅)
 - loudness (시스템 볼륨/뮤트 제어)
 - electron-store (설정 저장)
 - Firebase Authentication (Google OAuth)
@@ -18,8 +18,10 @@ Windows 시스템 볼륨을 단축키+마우스 휠로 조절하는 시스템 �
 - Dark theme + Glass morphism + Neon glow
 - Tray icon: "Vy" lettermark
 
-## Current Features (v2.1.0)
+## Current Features (v2.2.0)
 - 글로벌 마우스/키보드 단축키로 볼륨 조절 (Alt+Wheel, 커스텀 가능)
+- 단축키 매칭 시 원본 이벤트 차단 (Alt+Wheel → 스크롤 안 됨)
+- WH_KEYBOARD_LL 훅으로 키보드 trigger 지원 (arrowUp/Down, keyM)
 - Alt + Middle Click 뮤트 토글
 - 연속 입력 시 볼륨 스텝 가속 (최대 10%)
 - OSD (On-Screen Display) 볼륨/뮤트 상태 표시
@@ -49,3 +51,6 @@ Windows 시스템 볼륨을 단축키+마우스 휠로 조절하는 시스템 �
 ## Roadmap
 - [x] 로그인 기능 (Google OAuth + Firebase Auth) - 트레이 메뉴에서 로그인/로그아웃
 - [x] 사용자 정보 / 구독 테이블 연동 (Firestore users/subscriptions)
+- [x] 단축키 매칭 시 원본 이벤트 차단 + 키보드 훅
+- [ ] GitHub Actions 빌드 자동화 + 홈페이지 & 다운로드 배포 (`voly` 퍼블릭 저장소)
+- [ ] 자동 업데이트 구성 (electron-updater + GitHub Releases)
