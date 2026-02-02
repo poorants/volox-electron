@@ -15,8 +15,8 @@ function createTray(app) {
 
   // Pre-create menu popup (hidden)
   menuWindow = new BrowserWindow({
-    width: 180,
-    height: 130,
+    width: 220,
+    height: 180,
     frame: false,
     transparent: true,
     resizable: false,
@@ -60,8 +60,8 @@ function createTray(app) {
 function getMenuPosition(trayBounds) {
   const display = screen.getDisplayNearestPoint({ x: trayBounds.x, y: trayBounds.y });
   const { x: wx, y: wy, width: sw, height: sh } = display.workArea;
-  const menuW = 180;
-  const menuH = 130;
+  const menuW = 220;
+  const menuH = 180;
 
   let x = Math.round(trayBounds.x - menuW / 2 + trayBounds.width / 2);
   let y;

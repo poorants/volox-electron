@@ -31,4 +31,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('theme-changed', (_event, theme) => callback(theme));
   },
   openThemePicker: () => ipcRenderer.invoke('open-theme-picker'),
+  // Auth
+  getFirebaseConfig: () => ipcRenderer.invoke('get-firebase-config'),
+  getUser: () => ipcRenderer.invoke('get-user'),
+  signIn: (user) => ipcRenderer.invoke('auth-sign-in', user),
+  signOut: () => ipcRenderer.invoke('auth-sign-out'),
+  closeAuthWindow: () => ipcRenderer.invoke('close-auth-window'),
+  openAuthWindow: () => ipcRenderer.invoke('open-auth-window'),
+  onAuthStateChanged: (callback) => {
+    ipcRenderer.on('auth-state-changed', (_event, user) => callback(user));
+  },
 });

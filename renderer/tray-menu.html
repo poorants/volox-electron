@@ -47,10 +47,68 @@
       background: var(--mute-red-hover);
       color: var(--mute-red-light);
     }
+
+    /* User section */
+    .user-section {
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-accent);
+    }
+    .user-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .user-name {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-email {
+      font-size: 10px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .btn-signout {
+      font-size: 10px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 2px 8px;
+      border-radius: var(--radius-lg);
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+    .btn-signout:hover {
+      background: var(--mute-red-hover);
+      color: var(--mute-red-light);
+    }
   </style>
 </head>
 <body>
   <div class="menu">
+    <!-- Auth: signed out -->
+    <div class="menu-item" id="btn-signin" style="display:none;">Sign In</div>
+    <!-- Auth: signed in -->
+    <div class="user-section" id="user-section" style="display:none;">
+      <img class="user-avatar" id="user-avatar" src="" alt="">
+      <div class="user-info">
+        <div class="user-name" id="user-name"></div>
+        <div class="user-email" id="user-email"></div>
+      </div>
+      <div class="btn-signout" id="btn-signout">Sign Out</div>
+    </div>
+    <div class="sep" id="auth-sep"></div>
     <div class="menu-item" id="btn-theme">Theme</div>
     <div class="menu-item" id="btn-settings">Settings</div>
     <div class="sep"></div>
@@ -58,6 +116,39 @@
   </div>
 
   <script>
+    const btnSignin = document.getElementById('btn-signin');
+    const userSection = document.getElementById('user-section');
+    const userAvatar = document.getElementById('user-avatar');
+    const userName = document.getElementById('user-name');
+    const userEmail = document.getElementById('user-email');
+
+    function updateAuthUI(user) {
+      if (user) {
+        btnSignin.style.display = 'none';
+        userSection.style.display = 'flex';
+        userAvatar.src = user.photoURL || '';
+        userName.textContent = user.displayName || 'User';
+        userEmail.textContent = user.email || '';
+      } else {
+        btnSignin.style.display = '';
+        userSection.style.display = 'none';
+      }
+    }
+
+    // Initial state
+    window.electronAPI.getUser().then(updateAuthUI);
+
+    // Listen for auth changes
+    window.electronAPI.onAuthStateChanged(updateAuthUI);
+
+    btnSignin.addEventListener('click', () => {
+      window.electronAPI.openAuthWindow();
+    });
+
+    document.getElementById('btn-signout').addEventListener('click', () => {
+      window.electronAPI.signOut();
+    });
+
     document.getElementById('btn-theme').addEventListener('click', () => {
       window.electronAPI.openThemePicker();
     });

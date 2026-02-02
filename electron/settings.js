@@ -70,6 +70,16 @@ const schema = {
     type: 'boolean',
     default: false,
   },
+  user: {
+    type: ['object', 'null'],
+    properties: {
+      uid: { type: 'string' },
+      email: { type: 'string' },
+      displayName: { type: 'string' },
+      photoURL: { type: 'string' },
+    },
+    default: null,
+  },
 };
 
 const store = new Store({ schema });
@@ -100,4 +110,21 @@ function setTheme(theme) {
   store.set('theme', theme);
 }
 
-module.exports = { getSettings, saveSettings, getTheme, setTheme };
+function getUser() {
+  return store.get('user') || null;
+}
+
+function setUser(user) {
+  if (user) {
+    store.set('user', {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+    });
+  } else {
+    store.delete('user');
+  }
+}
+
+module.exports = { getSettings, saveSettings, getTheme, setTheme, getUser, setUser };

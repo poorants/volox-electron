@@ -1,6 +1,9 @@
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 const { app, ipcMain, BrowserWindow } = require('electron');
 const { createTray, destroyTray, setTrayState } = require('./tray');
 const { createOsdWindow, showOsd, destroyOsd } = require('./osd');
+const { openAuthWindow, closeAuthWindow, destroyAuthWindow } = require('./auth');
 const inputHook = require('./input-hook');
 const { adjustVolume, adjustVolumeSync, getCurrentVolume, toggleMute } = require('./volume');
 
@@ -20,7 +23,7 @@ function getAcceleratedStep(direction, baseStep) {
   accel.lastTime = now;
   return accel.step;
 }
-const { getSettings, saveSettings, getTheme, setTheme } = require('./settings');
+const { getSettings, saveSettings, getTheme, setTheme, getUser, setUser } = require('./settings');
 
 // Prevent multiple instances
 const gotTheLock = app.requestSingleInstanceLock();
@@ -110,6 +113,35 @@ app.whenReady().then(() => {
       win.webContents.send('theme-changed', theme);
     });
   });
+
+  // IPC: Auth
+  ipcMain.handle('get-firebase-config', () => ({
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    appId: process.env.FIREBASE_APP_ID,
+  }));
+
+  ipcMain.handle('get-user', () => getUser());
+
+  ipcMain.handle('auth-sign-in', (_event, user) => {
+    setUser(user);
+    BrowserWindow.getAllWindows().forEach((win) => {
+      win.webContents.send('auth-state-changed', user);
+    });
+    return true;
+  });
+
+  ipcMain.handle('auth-sign-out', () => {
+    setUser(null);
+    BrowserWindow.getAllWindows().forEach((win) => {
+      win.webContents.send('auth-state-changed', null);
+    });
+    return true;
+  });
+
+  ipcMain.handle('open-auth-window', () => openAuthWindow());
+  ipcMain.handle('close-auth-window', () => closeAuthWindow());
 
   // Match event against shortcut config
   function matchesShortcut(event, shortcut) {
@@ -212,5 +244,6 @@ app.on('window-all-closed', (e) => {
 app.on('before-quit', () => {
   inputHook.stopHook();
   destroyOsd();
+  destroyAuthWindow();
   destroyTray();
 });
