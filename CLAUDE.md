@@ -81,3 +81,4 @@ git push && git push --tags
 - [x] GitHub Actions 빌드 자동화 + 홈페이지 & 다운로드 배포
 - [ ] 자동 업데이트 구성 (electron-updater + GitHub Releases)
 - [ ] 빌드 용량 최적화 (locales 정리, asar 압축, 불필요 파일 제외)
+- [ ] 앱 시작 스플래시 화면 (앱 아이콘 + 로딩 표시, 잠시 후 사라짐)
