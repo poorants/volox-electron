@@ -1,8 +1,12 @@
 {
   "project": "volox",
   "level": "Starter",
-  "activeFeatures": [],
+  "activeFeatures": ["github-actions"],
   "pdca": {
+    "github-actions": {
+      "phase": "do",
+      "updatedAt": "2026-02-03"
+    },
     "voluk": {
       "phase": "archived",
       "matchRate": 92,
