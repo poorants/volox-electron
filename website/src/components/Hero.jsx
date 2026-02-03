@@ -64,7 +64,7 @@ export default function Hero() {
         >
           <a href="#download" className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-violet-600 text-white font-semibold rounded-[14px] shadow-[0_0_30px_rgba(139,92,246,0.3),0_4px_20px_rgba(0,0,0,0.3)] hover:bg-violet-500 hover:shadow-[0_0_50px_rgba(139,92,246,0.5)] hover:-translate-y-0.5 transition-all active:scale-[0.97]">
             <DownloadIcon />
-            Download for Windows
+            Get Volox
           </a>
           <a href="https://github.com/poorants/volox" target="_blank" rel="noopener" className="inline-flex items-center gap-2.5 px-7 py-3.5 border border-violet-500/25 text-violet-200/60 font-semibold rounded-[14px] hover:bg-violet-500/8 hover:text-white hover:border-violet-400 transition-all active:scale-[0.97]">
             <GithubIcon />

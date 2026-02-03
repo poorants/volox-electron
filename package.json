@@ -19,6 +19,7 @@
   "build": {
     "appId": "com.volox.app",
     "productName": "Volox",
+    "icon": "assets/volox-icon.png",
     "directories": {
       "output": "dist"
     },
