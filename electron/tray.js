@@ -63,17 +63,6 @@ function createTray(app) {
   return tray;
 }
 
-function getMenuPosition(cursorPoint) {
-  const menuW = 200;
-  const menuH = 200;
-
-  // Position menu so bottom-right corner is at cursor
-  let x = cursorPoint.x - menuW;
-  let y = cursorPoint.y - menuH;
-
-  return { x, y };
-}
-
 function openSettings() {
   if (settingsWindow && !settingsWindow.isDestroyed()) {
     settingsWindow.focus();

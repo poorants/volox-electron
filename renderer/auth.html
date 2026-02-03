@@ -73,11 +73,15 @@
       height: 20px;
     }
 
-    .btn-close {
+    .close-wrapper {
       -webkit-app-region: no-drag;
       position: absolute;
       top: 16px;
       right: 16px;
+      z-index: 9999;
+    }
+
+    .btn-close {
       width: 32px;
       height: 32px;
       border: none;
@@ -90,6 +94,11 @@
       align-items: center;
       justify-content: center;
       transition: all var(--transition-fast);
+    }
+
+    .btn-close:hover {
+      background: var(--volox-hover);
+      color: var(--text-primary);
     }
 
     .btn-close:hover {
@@ -127,8 +136,10 @@
   </style>
 </head>
 <body>
-  <button class="btn-close" id="btn-close">✕</button>
   <div class="container">
+    <div class="close-wrapper">
+      <button class="btn-close" id="btn-close">✕</button>
+    </div>
     <div class="logo">VOLOX</div>
     <div class="subtitle">Sign in to Volox</div>
 
@@ -148,11 +159,7 @@
 
   <script>
     document.getElementById('btn-close').addEventListener('click', () => {
-      if (window.electronAPI && window.electronAPI.closeAuthWindow) {
-        window.electronAPI.closeAuthWindow();
-      } else {
-        window.close();
-      }
+      window.close();
     });
   </script>
 
@@ -197,6 +204,8 @@
             if (isAuthInProgress) {
               status.textContent = 'Sign-in cancelled.';
               resetAuthState();
+              // Auto close after showing message
+              setTimeout(() => window.close(), 800);
             }
           }, 300);
         }
@@ -271,6 +280,7 @@
       } catch (err) {
         if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
           status.textContent = 'Sign-in cancelled.';
+          setTimeout(() => window.close(), 800);
         } else {
           status.textContent = err.message;
           status.className = 'status error';
