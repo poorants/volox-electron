@@ -4,9 +4,42 @@ on:
   push:
     tags:
       - 'v*'
+    branches:
+      - main
+    paths:
+      - 'website/**'
 
 jobs:
+  deploy-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: website
+        run: npm ci
+
+      - name: Build website
+        working-directory: website
+        run: npm run build
+
+      - name: Deploy to volox GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.RELEASE_REPO_TOKEN }}
+          external_repository: poorants/volox
+          publish_branch: gh-pages
+          publish_dir: ./website/dist
+
+
   build-windows:
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -43,6 +76,7 @@ jobs:
           prerelease: false
 
   build-macos:
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: macos-latest
     steps:
       - name: Checkout

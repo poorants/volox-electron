@@ -66,7 +66,7 @@ export default function Hero() {
             <DownloadIcon />
             Download for Windows
           </a>
-          <a href="https://github.com" target="_blank" rel="noopener" className="inline-flex items-center gap-2.5 px-7 py-3.5 border border-violet-500/25 text-violet-200/60 font-semibold rounded-[14px] hover:bg-violet-500/8 hover:text-white hover:border-violet-400 transition-all active:scale-[0.97]">
+          <a href="https://github.com/poorants/volox" target="_blank" rel="noopener" className="inline-flex items-center gap-2.5 px-7 py-3.5 border border-violet-500/25 text-violet-200/60 font-semibold rounded-[14px] hover:bg-violet-500/8 hover:text-white hover:border-violet-400 transition-all active:scale-[0.97]">
             <GithubIcon />
             View on GitHub
           </a>
