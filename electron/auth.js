@@ -60,8 +60,8 @@ async function openAuthWindow() {
   const port = await startAuthServer();
 
   authWindow = new BrowserWindow({
-    width: 500,
-    height: 650,
+    width: 360,
+    height: 400,
     resizable: false,
     frame: false,
     title: 'Volox - Sign In',
@@ -78,6 +78,8 @@ async function openAuthWindow() {
   authWindow.on('closed', () => {
     authWindow = null;
   });
+
+  // Note: blur event not used because Google auth popup would close this window
 }
 
 function closeAuthWindow() {

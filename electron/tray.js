@@ -42,9 +42,16 @@ function createTray(app) {
       return;
     }
 
-    const bounds = tray.getBounds();
-    const pos = getMenuPosition(bounds);
-    menuWindow.setPosition(pos.x, pos.y, false);
+    const cursorPoint = screen.getCursorScreenPoint();
+    const display = screen.getDisplayNearestPoint(cursorPoint);
+    const scale = display.scaleFactor;
+    const menuW = 200;
+    const menuH = 200;
+
+    const x = cursorPoint.x - menuW;
+    const y = cursorPoint.y - Math.round(menuH / scale);
+
+    menuWindow.setBounds({ x, y, width: menuW, height: menuH });
     menuWindow.show();
   };
 
@@ -56,24 +63,13 @@ function createTray(app) {
   return tray;
 }
 
-function getMenuPosition(trayBounds) {
-  const display = screen.getDisplayNearestPoint({ x: trayBounds.x, y: trayBounds.y });
-  const { x: wx, y: wy, width: sw, height: sh } = display.workArea;
+function getMenuPosition(cursorPoint) {
   const menuW = 200;
   const menuH = 200;
 
-  let x = Math.round(trayBounds.x - menuW / 2 + trayBounds.width / 2);
-  let y;
-
-  if (process.platform === 'darwin') {
-    y = trayBounds.y + trayBounds.height + 4;
-  } else {
-    y = trayBounds.y - menuH - 4;
-  }
-
-  // Clamp to workArea
-  x = Math.max(wx, Math.min(x, wx + sw - menuW));
-  y = Math.max(wy, Math.min(y, wy + sh - menuH));
+  // Position menu so bottom-right corner is at cursor
+  let x = cursorPoint.x - menuW;
+  let y = cursorPoint.y - menuH;
 
   return { x, y };
 }
