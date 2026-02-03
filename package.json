@@ -1,6 +1,6 @@
 {
   "name": "volox",
-  "version": "2.0.1",
+  "version": "2.0.4",
   "description": "Volox - Volume, the way it should be.",
   "main": "electron/main.js",
   "scripts": {
