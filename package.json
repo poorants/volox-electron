@@ -5,9 +5,9 @@
   "main": "electron/main.js",
   "scripts": {
     "dev": "electron .",
-    "build": "npx electron-builder",
-    "build:mac": "npx electron-builder --mac",
-    "build:win": "npx electron-builder --win"
+    "build": "npx electron-builder --publish never",
+    "build:mac": "npx electron-builder --mac --publish never",
+    "build:win": "npx electron-builder --win --publish never"
   },
   "keywords": [],
   "author": "",
