@@ -5,6 +5,9 @@
   <title>Volox Settings</title>
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="theme-dark.css" id="theme-variant">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap" rel="stylesheet">
   <style>
     body {
       background: var(--surface-0);
@@ -73,25 +76,20 @@
 
     /* Header */
     .header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
       margin-bottom: 28px;
     }
-    .header-logo {
-      width: 40px; height: 40px;
-      background: linear-gradient(135deg, var(--volox-600), var(--volox-400));
-      border-radius: var(--radius-xl);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; font-weight: var(--font-weight-extrabold); color: white;
-      box-shadow: 0 0 20px var(--volox-glow);
+    .header h1 {
+      font-family: 'Jaro', sans-serif;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--text-primary);
     }
-    .header-text h1 {
-      font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); line-height: 1.2;
-    }
-    .header-text p {
-      font-size: var(--font-size-xs); color: var(--text-tertiary);
+    .header p {
+      font-size: var(--font-size-xs);
+      color: var(--text-tertiary);
       letter-spacing: 0.02em;
+      margin-top: 2px;
     }
 
     /* Section */
@@ -227,7 +225,7 @@
       justify-content: space-between;
       padding: 4px 0;
     }
-    .toggle-row label {
+    .toggle-row > label:first-child {
       font-size: var(--font-size-sm);
       color: var(--text-secondary);
     }
@@ -241,13 +239,14 @@
       opacity: 0;
       width: 0;
       height: 0;
+      position: absolute;
     }
     .toggle-slider {
       position: absolute;
       cursor: pointer;
       top: 0; left: 0; right: 0; bottom: 0;
       background: var(--surface-2);
-      border-radius: var(--radius-full);
+      border-radius: 11px;
       transition: background var(--transition-normal);
     }
     .toggle-slider::before {
@@ -256,9 +255,9 @@
       height: 16px;
       width: 16px;
       left: 3px;
-      bottom: 3px;
+      top: 3px;
       background: var(--text-tertiary);
-      border-radius: var(--radius-full);
+      border-radius: 50%;
       transition: transform var(--transition-normal), background var(--transition-normal);
     }
     .toggle-switch input:checked + .toggle-slider {
@@ -329,11 +328,8 @@
   <div class="content">
 
   <div class="header">
-    <div class="header-logo">Vy</div>
-    <div class="header-text">
-      <h1>Volox</h1>
-      <p>Volume, the way it should be.</p>
-    </div>
+    <h1>VOLOX</h1>
+    <p>Volume, the way it should be.</p>
   </div>
 
   <div class="section">
