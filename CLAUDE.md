@@ -16,9 +16,10 @@ Windows/Mac 데스크톱 트레이 앱. 볼륨·뮤트 제어를 가볍고 편�
 ## Design System
 - Prime Color: Electric Violet (#8B5CF6)
 - Dark theme + Glass morphism + Neon glow
-- Tray icon: "Vy" lettermark
+- Logo Font: Jaro (Google Fonts)
+- Tray icon: "VX" lettermark
 
-## Current Features (v2.2.0)
+## Current Features (v2.0.4)
 - 글로벌 마우스/키보드 단축키로 볼륨 조절 (Alt+Wheel, 커스텀 가능)
 - 단축키 매칭 시 원본 이벤트 차단 (Alt+Wheel → 스크롤 안 됨)
 - WH_KEYBOARD_LL 훅으로 키보드 trigger 지원 (arrowUp/Down, keyM)
@@ -37,20 +38,45 @@ Windows/Mac 데스크톱 트레이 앱. 볼륨·뮤트 제어를 가볍고 편�
 ## Project Structure
 - `electron/` - Main process modules (tray, osd, input-hook, volume, settings, auth)
 - `renderer/` - HTML files (osd.html, settings.html, auth.html)
-- `assets/` - Tray icons (.ico)
+- `assets/` - App icons (volox-icon.png, volox-tray-icon.png)
+- `website/` - Landing page (Vite + React + Tailwind)
 - `docs/` - PDCA documents
+- `.github/workflows/` - CI/CD workflows
 
 ## Commands
 - `npm run dev` - Electron 실행 (시스템 트레이)
-- `npm run build` - 프로덕션 빌드 (.exe)
+- `npm run build` - 프로덕션 빌드 (.exe / .dmg)
 
 ## Default Shortcuts
 - Alt + Wheel Up/Down → 볼륨 조절
 - Alt + Middle Click → 뮤트 토글
 
+## Deployment (GitHub Actions)
+
+### 앱 배포 (Windows/macOS)
+v태그 푸시 시 자동으로 빌드 & GitHub Releases에 업로드됩니다.
+
+```bash
+# 버전 업데이트 후 태그 푸시
+npm version patch  # or minor, major
+git push && git push --tags
+```
+
+- Windows: `volox-setup.exe`
+- macOS: `volox.dmg`
+- 배포 위치: https://github.com/poorants/volox/releases
+
+### 웹사이트 배포
+`website/` 폴더 변경 시 자동으로 GitHub Pages에 배포됩니다.
+- 배포 위치: https://poorants.github.io/volox/
+
+### GitHub Secrets 필요
+- `VOLOX_PAT`: volox 저장소 접근용 Personal Access Token
+- `FIREBASE_API_KEY`, `FIREBASE_AUTH_DOMAIN`, `FIREBASE_PROJECT_ID`, `FIREBASE_APP_ID`
+
 ## Roadmap
-- [x] 로그인 기능 (Google OAuth + Firebase Auth) - 트레이 메뉴에서 로그인/로그아웃
-- [x] 사용자 정보 / 구독 테이블 연동 (Firestore users/subscriptions)
+- [x] 로그인 기능 (Google OAuth + Firebase Auth)
+- [x] 사용자 정보 / 구독 테이블 연동 (Firestore)
 - [x] 단축키 매칭 시 원본 이벤트 차단 + 키보드 훅
-- [ ] GitHub Actions 빌드 자동화 + 홈페이지 & 다운로드 배포 (`volox` 퍼블릭 저장소)
+- [x] GitHub Actions 빌드 자동화 + 홈페이지 & 다운로드 배포
 - [ ] 자동 업데이트 구성 (electron-updater + GitHub Releases)
