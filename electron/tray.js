@@ -1,7 +1,9 @@
-const { Tray, BrowserWindow, screen } = require('electron');
+const { Tray, BrowserWindow, screen, nativeImage } = require('electron');
 const path = require('path');
 const { createTrayIcon } = require('./tray-icon');
 const { getTheme } = require('./settings');
+
+const appIcon = nativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'volox-tray-icon.png'));
 
 let tray = null;
 let settingsWindow = null;
@@ -74,6 +76,7 @@ function openSettings() {
     height: 540,
     resizable: false,
     frame: false,
+    icon: appIcon,
     title: 'Volox',
     backgroundColor: getTheme() === 'light' ? '#FFFFFF' : '#09090B',
     webPreferences: {
@@ -104,6 +107,7 @@ function openThemePicker() {
     height: 400,
     resizable: false,
     frame: false,
+    icon: appIcon,
     title: 'Volox Themes',
     backgroundColor: getTheme() === 'light' ? '#FFFFFF' : '#09090B',
     webPreferences: {

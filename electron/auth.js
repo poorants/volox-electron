@@ -1,8 +1,10 @@
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, nativeImage } = require('electron');
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { getTheme } = require('./settings');
+
+const appIcon = nativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'volox-tray-icon.png'));
 
 let authWindow = null;
 let authServer = null;
@@ -64,6 +66,7 @@ async function openAuthWindow() {
     height: 400,
     resizable: false,
     frame: false,
+    icon: appIcon,
     title: 'Volox - Sign In',
     backgroundColor: getTheme() === 'light' ? '#FFFFFF' : '#09090B',
     webPreferences: {
