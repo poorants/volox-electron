@@ -32,11 +32,11 @@
     "mac": {
       "target": "dmg",
       "category": "public.app-category.utilities",
-      "artifactName": "volox-${version}.${ext}"
+      "artifactName": "volox.${ext}"
     },
     "win": {
       "target": "nsis",
-      "artifactName": "volox-setup-${version}.${ext}"
+      "artifactName": "volox-setup.${ext}"
     }
   },
   "dependencies": {
