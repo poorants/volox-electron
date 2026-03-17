@@ -64,7 +64,7 @@ git push && git push --tags
 
 - Windows: `volox-setup.exe`
 - macOS: `volox.dmg`
-- 배포 위치: https://github.com/poorants/volox/releases
+- 배포 위치: https://github.com/poorants/volox-electron/releases
 
 ### 웹사이트 배포
 `website/` 폴더 변경 시 자동으로 GitHub Pages에 배포됩니다.

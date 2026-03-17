@@ -23,7 +23,7 @@ export default function Download() {
           <div className="relative flex flex-col items-center gap-4">
             <div className="flex flex-wrap justify-center gap-4">
               <a
-                href="https://github.com/poorants/volox/releases/latest/download/volox-setup.exe"
+                href="https://github.com/poorants/volox-electron/releases/latest/download/volox-setup.exe"
                 className="inline-flex items-center gap-2.5 px-8 py-4 bg-violet-600 text-white text-lg font-semibold rounded-2xl shadow-[0_0_30px_rgba(139,92,246,0.3),0_4px_20px_rgba(0,0,0,0.3)] hover:bg-violet-500 hover:shadow-[0_0_50px_rgba(139,92,246,0.5)] hover:-translate-y-0.5 transition-all active:scale-[0.97]"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -32,7 +32,7 @@ export default function Download() {
                 Windows
               </a>
               <a
-                href="https://github.com/poorants/volox/releases/latest/download/volox.dmg"
+                href="https://github.com/poorants/volox-electron/releases/latest/download/volox.dmg"
                 className="inline-flex items-center gap-2.5 px-8 py-4 border border-violet-500/40 text-violet-100 text-lg font-semibold rounded-2xl hover:bg-violet-500/10 hover:border-violet-400 hover:-translate-y-0.5 transition-all active:scale-[0.97]"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">

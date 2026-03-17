@@ -168,3 +168,8 @@ dist
 # bkit
 docs/.bkit-memory.json
 docs/.pdca-status.json
+# PARA documents (managed outside repo)
+docs/
+
+# bkit plugin data
+.bkit/
