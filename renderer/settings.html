@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <script src="tauri-bridge.js"></script>
   <title>Volox Settings</title>
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="theme-dark.css" id="theme-variant">
@@ -320,7 +321,7 @@
 </head>
 <body>
 
-  <div class="titlebar">
+  <div class="titlebar" data-tauri-drag-region>
     <span class="titlebar-title">Volox Settings</span>
     <button class="titlebar-close" id="titlebar-close">&#x2715;</button>
   </div>

@@ -2,51 +2,15 @@
   "name": "volox",
   "version": "2.0.6",
   "description": "Volox - Volume, the way it should be.",
-  "main": "electron/main.js",
-  "scripts": {
-    "dev": "electron .",
-    "build": "npx electron-builder --publish never",
-    "build:mac": "npx electron-builder --mac --publish never",
-    "build:win": "npx electron-builder --win --publish never"
-  },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "build:win": "tauri build --bundles nsis",
+    "build:mac": "tauri build --bundles dmg",
+    "tauri": "tauri"
+  },
   "devDependencies": {
-    "electron": "^40.1.0",
-    "electron-builder": "^26.4.0"
-  },
-  "build": {
-    "appId": "com.volox.app",
-    "productName": "Volox",
-    "icon": "assets/volox-icon.png",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "electron/**/*",
-      "renderer/**/*",
-      "assets/**/*",
-      "package.json",
-      ".env"
-    ],
-    "mac": {
-      "target": "dmg",
-      "category": "public.app-category.utilities",
-      "artifactName": "volox.${ext}"
-    },
-    "win": {
-      "target": "nsis",
-      "artifactName": "volox-setup.${ext}"
-    }
-  },
-  "dependencies": {
-    "dotenv": "^17.2.3",
-    "electron-store": "^11.0.2",
-    "firebase": "^12.8.0",
-    "loudness": "^0.4.2"
-  },
-  "optionalDependencies": {
-    "koffi": "^2.15.1"
+    "@tauri-apps/cli": "^2"
   }
 }

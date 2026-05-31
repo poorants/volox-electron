@@ -168,3 +168,8 @@ dist
 # bkit
 docs/.bkit-memory.json
 docs/.pdca-status.json
+
+# Rust / Tauri
+src-tauri/target/
+src-tauri/gen/
+**/*.rs.bk

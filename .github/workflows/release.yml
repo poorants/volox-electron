@@ -37,7 +37,6 @@ jobs:
           publish_branch: gh-pages
           publish_dir: ./website/dist
 
-
   build-windows:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: windows-latest
@@ -51,25 +50,31 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Create .env
-        run: |
-          echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> .env
-          echo "FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> .env
-          echo "FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> .env
-          echo "FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
-
-      - name: Build Windows
+      - name: Build Windows (Tauri)
         run: npm run build:win
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
 
       - name: Upload to volox Releases
         uses: softprops/action-gh-release@v2
         with:
           repository: poorants/volox
           token: ${{ secrets.RELEASE_REPO_TOKEN }}
-          files: dist/*.exe
+          files: src-tauri/target/release/bundle/nsis/*-setup.exe
           tag_name: ${{ github.ref_name }}
           name: Volox ${{ github.ref_name }}
           draft: false
@@ -88,25 +93,33 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Cache Rust
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Create .env
-        run: |
-          echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> .env
-          echo "FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> .env
-          echo "FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> .env
-          echo "FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
-
-      - name: Build macOS
+      - name: Build macOS (Tauri)
         run: npm run build:mac
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
 
       - name: Upload to volox Releases
         uses: softprops/action-gh-release@v2
         with:
           repository: poorants/volox
           token: ${{ secrets.RELEASE_REPO_TOKEN }}
-          files: dist/*.dmg
+          files: src-tauri/target/release/bundle/dmg/*.dmg
           tag_name: ${{ github.ref_name }}
           name: Volox ${{ github.ref_name }}
           draft: false

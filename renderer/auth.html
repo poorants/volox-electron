@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <script src="tauri-bridge.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap" rel="stylesheet">
@@ -136,7 +137,7 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" data-tauri-drag-region>
     <div class="close-wrapper">
       <button class="btn-close" id="btn-close">✕</button>
     </div>

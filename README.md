@@ -2,7 +2,7 @@
 
 > Volume, the way it should be.
 
-System tray utility for controlling system volume with keyboard shortcuts and mouse wheel. Built with Electron.
+System tray utility for controlling system volume with keyboard shortcuts and mouse wheel. Built with Tauri 2 + Rust (native webview frontend).
 
 ## Features
 
@@ -21,8 +21,10 @@ System tray utility for controlling system volume with keyboard shortcuts and mo
 
 ### Prerequisites
 
-- Node.js 18+
-- npm
+- Node.js 18+ and npm
+- Rust (stable) — https://rustup.rs
+- Windows: WebView2 runtime (preinstalled on Windows 11) + MSVC build tools
+- macOS: Xcode command line tools
 
 ### Install
 
@@ -69,33 +71,44 @@ Select themes via tray menu > Theme.
 ## Project Structure
 
 ```
-electron/           Main process
-  main.js           App entry, IPC handlers
-  tray.js           System tray, menu, settings/theme windows
-  tray-icon.js      Dynamic tray icon generation
-  osd.js            OSD window management
-  volume.js         System volume control (loudness)
-  settings.js       Persistent settings (electron-store)
-  preload.js        Context bridge API
-  input-hook/       Global input hooks (koffi, Win32)
-renderer/           Renderer HTML/CSS
+src-tauri/          Rust backend (Tauri 2)
+  src/
+    lib.rs          App builder, setup, tray-resident lifecycle
+    main.rs         Binary entry
+    commands.rs     #[tauri::command] handlers (the invoke surface)
+    dispatch.rs     Volume cache + acceleration, OSD/tray orchestration
+    input_hook.rs   Global WH_MOUSE_LL / WH_KEYBOARD_LL hooks (windows crate)
+    volume.rs       System volume/mute (Windows Core Audio)
+    settings.rs     Persistent settings (serde + JSON)
+    tray.rs         System tray icon + custom popup menu window
+    osd.rs          OSD window management
+    panels.rs       Settings / Theme / Auth windows
+    config.rs       Firebase config resolution
+    state.rs        Shared state + hook→dispatcher bus
+  tauri.conf.json   Tauri config
+  capabilities/     Permission capabilities
+  icons/            App + tray icons
+renderer/           Frontend HTML/CSS/JS (native webview)
+  tauri-bridge.js   window.electronAPI shim → Tauri invoke/listen
   osd.html          Volume OSD overlay
   settings.html     Settings window
   theme-picker.html Theme selection window
   tray-menu.html    Custom tray context menu
-  theme.css         Base reset
-  theme-dark.css    Dark theme tokens
-  theme-light.css   Light theme tokens
-  theme-cyber-pulse.css  Cyber Pulse theme tokens + OSD layout
-assets/             Icons and images
+  auth.html         Google sign-in (Firebase JS SDK)
+  theme*.css        Base reset + theme tokens
+  assets/           Bundled images (sound.png)
+assets/             Source icons and images
 ```
 
 ## Tech Stack
 
-- [Electron](https://www.electronjs.org/) — Cross-platform desktop app
-- [electron-store](https://github.com/sindresorhus/electron-store) — Persistent settings
-- [loudness](https://github.com/nicehash/loudness) — System volume control
-- [koffi](https://koffi.dev/) — Win32 FFI for global mouse hooks (Windows only)
+- [Tauri 2](https://tauri.app/) — Rust backend + native OS webview
+- [windows](https://crates.io/crates/windows) crate — Win32 global hooks (WH_MOUSE_LL / WH_KEYBOARD_LL) + Core Audio volume control
+- [serde](https://serde.rs/) — Persistent settings (JSON, electron-store schema compatible)
+- tauri-plugin-single-instance / tauri-plugin-autostart
+- [Firebase Auth](https://firebase.google.com/docs/auth) — Google OAuth (web SDK in the auth window)
+
+> Migrated from Electron — see [docs/tauri-migration.md](docs/tauri-migration.md).
 
 ## License
 
