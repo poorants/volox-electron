@@ -2,7 +2,7 @@
 
 > Volo + Vox — 가볍고 편하게, 확실한 편의를 제공하는 볼륨 제어
 
-Windows/Mac 데스크톱 트레이 앱. 볼륨·뮤트 제어를 가볍고 편하게.
+Windows 데스크톱 트레이 앱. 볼륨·뮤트 제어를 가볍고 편하게.
 
 ## Level: Starter
 
@@ -35,8 +35,8 @@ Windows/Mac 데스크톱 트레이 앱. 볼륨·뮤트 제어를 가볍고 편�
 - 테마 3종: Dark, Light, Cyber Pulse
 - 단일 인스턴스 잠금
 - Google OAuth 로그인/로그아웃 (Firebase Auth)
-- 로그인 상태 앱 재시작 시 유지 (electron-store 캐시)
-- Windows / macOS 지원
+- 로그인 상태 앱 재시작 시 유지 (설정 JSON 캐시)
+- Windows 전용
 
 ## Project Structure
 - `src-tauri/src/` - Rust 백엔드 모듈 (lib, commands, dispatch, input_hook, volume, settings, tray, osd, panels, config, state)
@@ -59,7 +59,7 @@ Windows/Mac 데스크톱 트레이 앱. 볼륨·뮤트 제어를 가볍고 편�
 
 ## Deployment (GitHub Actions)
 
-### 앱 배포 (Windows/macOS)
+### 앱 배포 (Windows)
 v태그 푸시 시 자동으로 빌드 & GitHub Releases에 업로드됩니다.
 
 ```bash
@@ -87,6 +87,5 @@ git push && git push --tags
 - [x] GitHub Actions 빌드 자동화 + 홈페이지 & 다운로드 배포
 - [x] Electron → Tauri 2 (Rust) 마이그레이션 (`migrate/electron-to-tauri`)
 - [ ] 자동 업데이트 구성 (tauri-plugin-updater + GitHub Releases)
-- [ ] macOS 네이티브 훅/볼륨 구현 (현재 Windows만, macOS는 스텁)
 - [ ] Firebase OAuth Tauri 네이티브화 (tauri-plugin-oauth 루프백 + signInWithCredential)
 - [ ] 앱 시작 스플래시 화면 (앱 아이콘 + 로딩 표시, 잠시 후 사라짐)

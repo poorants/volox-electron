@@ -7,7 +7,6 @@
     "dev": "tauri dev",
     "build": "tauri build",
     "build:win": "tauri build --bundles nsis",
-    "build:mac": "tauri build --bundles dmg",
     "tauri": "tauri"
   },
   "devDependencies": {

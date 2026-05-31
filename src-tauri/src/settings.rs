@@ -84,18 +84,10 @@ struct SettingsPatch {
 // ── Platform-aware defaults ──
 
 fn default_shortcuts() -> Shortcuts {
-    if cfg!(target_os = "macos") {
-        Shortcuts {
-            volume_up: Shortcut { modifier: "alt".into(), trigger: "arrowUp".into() },
-            volume_down: Shortcut { modifier: "alt".into(), trigger: "arrowDown".into() },
-            mute: Shortcut { modifier: "alt".into(), trigger: "keyM".into() },
-        }
-    } else {
-        Shortcuts {
-            volume_up: Shortcut { modifier: "alt".into(), trigger: "wheelUp".into() },
-            volume_down: Shortcut { modifier: "alt".into(), trigger: "wheelDown".into() },
-            mute: Shortcut { modifier: "alt".into(), trigger: "middleClick".into() },
-        }
+    Shortcuts {
+        volume_up: Shortcut { modifier: "alt".into(), trigger: "wheelUp".into() },
+        volume_down: Shortcut { modifier: "alt".into(), trigger: "wheelDown".into() },
+        mute: Shortcut { modifier: "alt".into(), trigger: "middleClick".into() },
     }
 }
 
@@ -116,24 +108,11 @@ impl Default for Store {
 // ── File location ──
 
 fn config_dir() -> PathBuf {
-    #[cfg(target_os = "windows")]
-    {
-        let base = std::env::var_os("APPDATA")
-            .map(PathBuf::from)
-            .unwrap_or_else(|| PathBuf::from("."));
-        base.join("Volox")
-    }
-    #[cfg(target_os = "macos")]
-    {
-        let home = std::env::var_os("HOME")
-            .map(PathBuf::from)
-            .unwrap_or_else(|| PathBuf::from("."));
-        home.join("Library").join("Application Support").join("Volox")
-    }
-    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
-    {
-        PathBuf::from(".").join("volox")
-    }
+    // Windows: %APPDATA%\Volox
+    let base = std::env::var_os("APPDATA")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("."));
+    base.join("Volox")
 }
 
 fn config_path() -> PathBuf {

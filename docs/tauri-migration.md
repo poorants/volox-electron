@@ -47,7 +47,6 @@
 
 ### 설정 파일 위치
 - Windows: `%APPDATA%\Volox\config.json`
-- macOS: `~/Library/Application Support/Volox/config.json`
 
 스키마(`shortcuts`/`volume`/`osd`/`theme`/`autoStart`/`user`/`subscription`)는
 electron-store 와 동일하며 `photoURL` 등 필드명도 그대로 직렬화한다.
@@ -67,9 +66,8 @@ electron-store 와 동일하며 `photoURL` 등 필드명도 그대로 직렬화�
 ```bash
 npm install            # @tauri-apps/cli 설치
 npm run dev            # = tauri dev (트레이 상주, 개발 모드)
-npm run build          # = tauri build (현재 OS용 번들)
+npm run build          # = tauri build (Windows 번들)
 npm run build:win      # NSIS 설치 파일 (.exe)
-npm run build:mac      # DMG
 ```
 
 산출물: `src-tauri/target/release/bundle/{nsis,dmg}/...`
@@ -87,9 +85,9 @@ CI(`.github/workflows/release.yml`)는 빌드 step에 `FIREBASE_*`를 env로 전
   `signInWithPopup`을 사용한다. Tauri 웹뷰의 `window.open` 팝업 동작은 환경에 따라
   제약이 있을 수 있어, 필요 시 `tauri-plugin-oauth`(루프백) + `signInWithCredential`
   방식으로 전환을 권장한다. (그 외 모든 기능—훅/볼륨/OSD/트레이/설정/테마—은 네이티브 동작.)
-- **macOS 네이티브:** `input_hook.rs`/`volume.rs`는 현재 Windows 구현만 채워져 있고
-  macOS는 컴파일되는 no-op 스텁이다. 후속으로 NSEvent 글로벌 모니터(또는
-  `tauri-plugin-global-shortcut`) + CoreAudio 볼륨 제어를 채우면 된다.
+- **플랫폼:** Windows 전용. (이전 Electron 앱의 macOS 지원은 중단했다. `volume.rs`/
+  `input_hook.rs`의 비-Windows `cfg` 스텁은 크로스 컴파일 편의를 위한 no-op일 뿐
+  지원 대상이 아니다.)
 - **자동 업데이트:** 기존 로드맵 항목. Tauri는 `tauri-plugin-updater`로 GitHub
   Releases 자동 업데이트를 구성할 수 있다.
 

@@ -6,8 +6,8 @@ System tray utility for controlling system volume with keyboard shortcuts and mo
 
 ## Features
 
-- **Global Shortcuts** — Alt + Arrow Up/Down (macOS) or Alt + Mouse Wheel (Windows) for volume control
-- **Mute Toggle** — Alt + M (macOS) or Alt + Middle Click (Windows)
+- **Global Shortcuts** — Alt + Mouse Wheel Up/Down for volume control
+- **Mute Toggle** — Alt + Middle Click
 - **On-Screen Display** — Glassmorphism OSD with fade-in/out animation
 - **Themes** — Dark, Light, Cyber Pulse with per-theme OSD layouts
 - **Custom Tray Menu** — Styled popup menu matching the active theme
@@ -23,8 +23,7 @@ System tray utility for controlling system volume with keyboard shortcuts and mo
 
 - Node.js 18+ and npm
 - Rust (stable) — https://rustup.rs
-- Windows: WebView2 runtime (preinstalled on Windows 11) + MSVC build tools
-- macOS: Xcode command line tools
+- Windows 10/11 with WebView2 runtime (preinstalled on Windows 11) + MSVC build tools
 
 ### Install
 
@@ -41,20 +40,16 @@ npm run dev
 ### Build
 
 ```bash
-# macOS
-npm run build:mac
-
-# Windows
 npm run build:win
 ```
 
 ## Default Shortcuts
 
-| Action | macOS | Windows |
-|--------|-------|---------|
-| Volume Up | Alt + Up Arrow | Alt + Wheel Up |
-| Volume Down | Alt + Down Arrow | Alt + Wheel Down |
-| Mute Toggle | Alt + M | Alt + Middle Click |
+| Action | Shortcut |
+|--------|----------|
+| Volume Up | Alt + Wheel Up |
+| Volume Down | Alt + Wheel Down |
+| Mute Toggle | Alt + Middle Click |
 
 Shortcuts are customizable in Settings.
 
