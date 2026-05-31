@@ -88,4 +88,4 @@ git push && git push --tags
 - [x] Electron → Tauri 2 (Rust) 마이그레이션 (`migrate/electron-to-tauri`)
 - [ ] 자동 업데이트 구성 (tauri-plugin-updater + GitHub Releases)
 - [ ] Firebase OAuth Tauri 네이티브화 (tauri-plugin-oauth 루프백 + signInWithCredential)
-- [ ] 앱 시작 스플래시 화면 (앱 아이콘 + 로딩 표시, 잠시 후 사라짐)
+- [x] 앱 시작 스플래시 화면 (Jaro 워드마크 + 로딩 바, ~1.8초 후 사라짐)

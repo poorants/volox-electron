@@ -8,6 +8,7 @@ mod input_hook;
 mod osd;
 mod panels;
 mod settings;
+mod splash;
 mod state;
 mod tray;
 mod volume;
@@ -50,6 +51,9 @@ pub fn run() {
         ])
         .setup(|app| {
             let handle = app.handle().clone();
+
+            // Show the startup splash immediately (tray app has no main window).
+            splash::show(&handle);
 
             // Seed the hook's shortcut table from persisted settings.
             state::set_shortcuts(settings::get_shortcuts());
