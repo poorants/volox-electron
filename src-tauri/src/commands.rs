@@ -169,3 +169,10 @@ pub fn open_auth_window(app: AppHandle) {
 pub fn close_auth_window(app: AppHandle) {
     panels::close_auth(&app);
 }
+
+/// Diagnostic: pipe a message from any webview to the process stderr. Debug aid
+/// for inspecting webview state without a visible devtools window.
+#[tauri::command]
+pub fn frontend_log(message: String) {
+    eprintln!("[frontend] {message}");
+}

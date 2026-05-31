@@ -66,4 +66,19 @@
   // The renderer closes panels with window.close(); route it through Tauri so the
   // native window actually closes regardless of webview behavior.
   window.close = function () { invoke('close_window'); };
+
+  // Lightweight error pipe → Rust stderr (visible when run from a terminal).
+  var label = '?';
+  try { if (T.window && T.window.getCurrentWindow) label = T.window.getCurrentWindow().label; } catch (e) {}
+  window.addEventListener('error', function (e) {
+    try {
+      if (invoke) {
+        invoke('frontend_log', {
+          message: '[' + label + '] JS ERROR: ' +
+            (e.message || (e.error && e.error.message) || e.error) +
+            ' @ ' + e.filename + ':' + e.lineno
+        });
+      }
+    } catch (_) {}
+  });
 })();

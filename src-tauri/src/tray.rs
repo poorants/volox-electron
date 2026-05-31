@@ -40,11 +40,13 @@ pub fn create(app: &AppHandle) -> tauri::Result<()> {
     Ok(())
 }
 
-/// Pre-create the hidden menu popup window.
-pub fn create_menu_window(app: &AppHandle) {
-    if app.get_webview_window(MENU_LABEL).is_some() {
-        return;
-    }
+/// Build the menu window the first time it is needed.
+///
+/// It is created **visible** (and positioned immediately afterwards) rather than
+/// pre-created hidden: a WebView2 window created with `visible(false)` and only
+/// shown later can paint blank, because nothing triggers its first paint. Showing
+/// it while the content loads lets WebView2 paint normally.
+fn build_menu(app: &AppHandle) -> Option<tauri::WebviewWindow> {
     let built = WebviewWindowBuilder::new(app, MENU_LABEL, WebviewUrl::App("tray-menu.html".into()))
         .title("Volox Menu")
         .inner_size(MENU_W, MENU_H)
@@ -53,7 +55,7 @@ pub fn create_menu_window(app: &AppHandle) {
         .always_on_top(true)
         .skip_taskbar(true)
         .resizable(false)
-        .visible(false)
+        .visible(true)
         .build();
 
     match built {
@@ -64,23 +66,17 @@ pub fn create_menu_window(app: &AppHandle) {
                     let _ = hide_target.hide();
                 }
             });
+            Some(win)
         }
-        Err(e) => eprintln!("[tray] failed to create menu window: {e}"),
+        Err(e) => {
+            eprintln!("[tray] failed to create menu window: {e}");
+            None
+        }
     }
 }
 
-fn toggle_menu(app: &AppHandle, cursor: PhysicalPosition<f64>) {
-    let Some(win) = app.get_webview_window(MENU_LABEL) else {
-        return;
-    };
-
-    if win.is_visible().unwrap_or(false) {
-        let _ = win.hide();
-        return;
-    }
-
-    // Anchor the menu so its bottom-right corner sits at the cursor (matching the
-    // original's `cursor.x - menuW`, `cursor.y - menuH` placement).
+/// Position the menu so its bottom-right corner sits at the cursor, then show it.
+fn show_menu_at(win: &tauri::WebviewWindow, cursor: PhysicalPosition<f64>) {
     let scale = win.scale_factor().unwrap_or(1.0);
     let w = MENU_W * scale;
     let h = MENU_H * scale;
@@ -89,6 +85,27 @@ fn toggle_menu(app: &AppHandle, cursor: PhysicalPosition<f64>) {
     let _ = win.set_position(PhysicalPosition::new(x, y));
     let _ = win.show();
     let _ = win.set_focus();
+
+    // Debug aid: open devtools alongside the menu so its console/DOM is visible.
+    #[cfg(debug_assertions)]
+    win.open_devtools();
+}
+
+fn toggle_menu(app: &AppHandle, cursor: PhysicalPosition<f64>) {
+    if let Some(win) = app.get_webview_window(MENU_LABEL) {
+        // Already created: just toggle visibility (it has painted at least once).
+        if win.is_visible().unwrap_or(false) {
+            let _ = win.hide();
+        } else {
+            show_menu_at(&win, cursor);
+        }
+        return;
+    }
+
+    // First right-click: create it visible, then anchor it at the cursor.
+    if let Some(win) = build_menu(app) {
+        show_menu_at(&win, cursor);
+    }
 }
 
 /// Reflect mute state in the tray tooltip (the original keeps the same icon for

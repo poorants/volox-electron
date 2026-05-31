@@ -46,6 +46,7 @@ pub fn run() {
             commands::save_subscription,
             commands::open_auth_window,
             commands::close_auth_window,
+            commands::frontend_log,
         ])
         .setup(|app| {
             let handle = app.handle().clone();
@@ -62,9 +63,10 @@ pub fn run() {
             };
 
             // Dispatcher (owns the volume cache + COM endpoint), windows, tray, hook.
+            // The tray menu window is created lazily on first right-click (creating
+            // it hidden up-front made WebView2 paint it blank).
             dispatch::start(handle.clone());
             osd::create(&handle);
-            tray::create_menu_window(&handle);
             if let Err(e) = tray::create(&handle) {
                 eprintln!("[setup] tray creation failed: {e}");
             }
